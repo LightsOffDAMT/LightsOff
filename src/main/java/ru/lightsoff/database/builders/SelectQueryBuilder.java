@@ -38,6 +38,8 @@ public class SelectQueryBuilder {
     }
 
     public SelectQueryBuilder desc(){
+        if(primaryKey.equals(""))
+            return this;
         desc = true;
         descField = primaryKey;
         return this;
@@ -50,6 +52,8 @@ public class SelectQueryBuilder {
     }
 
     public SelectQueryBuilder asc(){
+        if(primaryKey.equals(""))
+            return this;
         asc = true;
         ascField = primaryKey;
         return this;
@@ -65,11 +69,42 @@ public class SelectQueryBuilder {
             validation();
         } catch (SQLException e){
             e.printStackTrace();
+            return "Sosat\'";
         }
-        return null;
+        String query = "SELECT";
+        if(fields.size() == 0 && primaryKey.length() == 0){
+            query += " *";
+        } else {
+            for(String it: fields)
+                query += " " + it + ",";
+            query = query.substring(0, query.length() - 1);
+        }
+        query += " FROM " + from;
+        if(asc || desc)
+            query += " ORDER BY ";
+        if (asc)
+            query += ascField + " ASC, ";
+        if(asc && !desc)
+            query = query.substring(0, query.length() - 2);
+        if(desc)
+            query += descField + " DESC";
+        return query + ";";
+    }
+
+    private boolean isPresent(String key){
+        for(String it: fields)
+           if(it.equals(key))
+               return true;
+        return false;
     }
 
     private void validation() throws SQLException{
+        if(asc && !isPresent(ascField))
+            throw new SQLException("Field" + ascField + " - not found");
+        if(desc && !isPresent(descField))
+            throw new SQLException("Field" + descField + " - not found");
+        if(from.equals(""))
+            throw new SQLException("Missing FROM table");
         if(primaryKey.contains(";"))
             throw new SQLException();
         if(ascField.contains(";"))
