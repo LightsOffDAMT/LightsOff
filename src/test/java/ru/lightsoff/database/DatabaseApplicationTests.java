@@ -79,7 +79,7 @@ public class DatabaseApplicationTests {
                 .withField("gun")
                 .desc()
                 .toString()
-        ).isEqualTo("Sosat'");
+        ).isEqualTo("Sosat\'");
 
     }
 
@@ -116,6 +116,7 @@ public class DatabaseApplicationTests {
                 .desc()
                 .toString()
         ).isEqualTo("SELECT gun FROM STALKER;");
+        //test
     }
 
 }
