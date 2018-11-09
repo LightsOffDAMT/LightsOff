@@ -53,9 +53,7 @@ public class QueryBuilder {
         return this;
     }
 
-    @Override
-    public String toString() {
-        String query = "";
-        return query;
+    public String getRaw(){
+        return null;
     }
 }
