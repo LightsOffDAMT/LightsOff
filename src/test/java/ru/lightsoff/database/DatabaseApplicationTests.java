@@ -58,7 +58,7 @@ public class DatabaseApplicationTests {
                 .withPrimaryKey("id")
                 .withField("gun")
                 .desc()
-                .toString()).isInstanceOf(SQLException.class);
+                .toString());
 
         //With field, asc() without parameters without primary key
         Assertions.assertThat(new SelectQueryBuilder()
@@ -66,7 +66,7 @@ public class DatabaseApplicationTests {
                 .withField("gun")
                 .asc()
                 .toString()
-        ).isEqualTo("SELECT gun FROM STALKER");
+        ).isEqualTo("SELECT gun FROM STALKER;");
 
 
         //With field, desc() without parameters without primary key
@@ -75,7 +75,7 @@ public class DatabaseApplicationTests {
                 .withField("gun")
                 .desc()
                 .toString()
-        ).isEqualTo("SELECT gun FROM STALKER");
+        ).isEqualTo("SELECT gun FROM STALKER;");
 
 
 }

@@ -64,7 +64,8 @@ public class SelectQueryBuilder {
         return this;
     }
 
-    public String getRaw(){
+    @Override
+    public String toString(){
         try{
             validation();
         } catch (SQLException e){
@@ -72,9 +73,11 @@ public class SelectQueryBuilder {
             return "Sosat\'";
         }
         String query = "SELECT";
-        if(fields.size() == 0 && primaryKey.length() == 0){
+        if(fields.size() == 0 && primaryKey.length() == 0 && primaryKey.length() == 0){
             query += " *";
         } else {
+            if(primaryKey.length() > 0)
+                query += " " + primaryKey + ",";
             for(String it: fields)
                 query += " " + it + ",";
             query = query.substring(0, query.length() - 1);
@@ -92,6 +95,8 @@ public class SelectQueryBuilder {
     }
 
     private boolean isPresent(String key){
+        if(primaryKey.equals(key))
+            return true;
         for(String it: fields)
            if(it.equals(key))
                return true;
