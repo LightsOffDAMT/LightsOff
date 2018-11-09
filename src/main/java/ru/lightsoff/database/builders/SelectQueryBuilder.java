@@ -3,7 +3,7 @@ package ru.lightsoff.database.builders;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class QueryBuilder {
+public class SelectQueryBuilder {
     private String primaryKey = "";
     private ArrayList<String> fields = new ArrayList<>();
     private String ascField = "";
@@ -12,50 +12,50 @@ public class QueryBuilder {
     private boolean asc = false;
     private boolean desc = false;
 
-    public QueryBuilder(){
+    public SelectQueryBuilder(){
         super();
     }
 
-    public QueryBuilder withPrimaryKey(String primaryKey){
+    public SelectQueryBuilder withPrimaryKey(String primaryKey){
         this.primaryKey = primaryKey;
         return this;
     }
 
-    public QueryBuilder withField(String field){
+    public SelectQueryBuilder withField(String field){
         this.fields.add(field);
         return this;
     }
 
-    public QueryBuilder withFields(ArrayList<String> fields){
+    public SelectQueryBuilder withFields(ArrayList<String> fields){
         this.fields.addAll(fields);
         return this;
     }
 
-    public QueryBuilder desc(String field){
+    public SelectQueryBuilder desc(String field){
         desc = true;
         descField = field;
         return this;
     }
 
-    public QueryBuilder desc(){
+    public SelectQueryBuilder desc(){
         desc = true;
         descField = primaryKey;
         return this;
     }
 
-    public QueryBuilder asc(String field){
+    public SelectQueryBuilder asc(String field){
         asc = true;
         ascField = field;
         return this;
     }
 
-    public QueryBuilder asc(){
+    public SelectQueryBuilder asc(){
         asc = true;
         ascField = primaryKey;
         return this;
     }
 
-    public QueryBuilder from(String table){
+    public SelectQueryBuilder from(String table){
         from = table;
         return this;
     }
