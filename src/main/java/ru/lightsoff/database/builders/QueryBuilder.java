@@ -66,7 +66,7 @@ public class QueryBuilder {
         } catch (SQLException e){
             e.printStackTrace();
         }
-        return null
+        return null;
     }
 
     private void validation() throws SQLException{
