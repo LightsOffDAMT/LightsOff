@@ -8,5 +8,9 @@ public class QueryBuilder {
     public SelectQueryBuilder select(){
         return new SelectQueryBuilder();
     }
+
+    public DeleteQueryBuilder delete(){
+        return new DeleteQueryBuilder();
+    }
 }
 

@@ -2,6 +2,8 @@ package ru.lightsoff.database;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ru.lightsoff.database.builders.DeleteQueryBuilder;
+import ru.lightsoff.database.builders.QueryBuilder;
 
 @SpringBootApplication
 public class DatabaseApplication {
