@@ -14,17 +14,16 @@ import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DatabaseApplicationTests {
+public class SelectQueryBuilderTests {
 
     // Maybe the order of the fields should not matter
     @Test
-    public void contextLoads() {
-          //With multiple single fields, ascending by field
+    public void regularRequest() {
         Assertions.assertThat(new QueryBuilder()
                 .select()
-                .from("STALKER")
                 .withField("gun")
                 .withField("artifacts")
+                .from("STALKER")
                 .asc("artifacts")
                 .toString()
         ).isEqualTo("SELECT gun, artifacts FROM STALKER ORDER BY artifacts ASC;");
@@ -33,27 +32,45 @@ public class DatabaseApplicationTests {
 
 
     @Test
-    public void test2() {
-        //With array of fields, descending by field
+    public void requestWithArrayOfFields() {
         Assertions.assertThat(new QueryBuilder()
                 .select()
-                .from("STALKER")
                 .withFields(new ArrayList<>(Arrays.asList("gun", "artifacts")))
+                .from("STALKER")
                 .desc("artifacts")
                 .toString()
         ).isEqualTo("SELECT gun, artifacts FROM STALKER ORDER BY artifacts DESC;");
 
     }
 
-
     @Test
-    public void test3() {
-         //With primary key, with field, descending by primary key
+    public void withoutFields_shouldReturnErrorMessage(){
         Assertions.assertThat(new QueryBuilder()
                 .select()
                 .from("STALKER")
+                .toString()
+        ).isEqualTo("Sosat\'");
+
+    }
+
+    @Test
+    public void selectAll(){
+        Assertions.assertThat(new QueryBuilder()
+                .select()
+                .all()
+                .from("STALKER")
+                .toString()
+        ).isEqualTo("SELECT * FROM STALKER;");
+
+    }
+
+    @Test
+    public void descendingByPrimaryKey() {
+        Assertions.assertThat(new QueryBuilder()
+                .select()
                 .withPrimaryKey("id")
                 .withField("gun")
+                .from("STALKER")
                 .desc()
                 .toString()
         ).isEqualTo("SELECT id, gun FROM STALKER ORDER BY id DESC;");
@@ -62,13 +79,12 @@ public class DatabaseApplicationTests {
 
 
     @Test
-    public void test4() {
-          //With primary key, with field, ascending by primary key
+    public void ascendingByPrimaryKey() {
         Assertions.assertThat(new QueryBuilder()
                 .select()
-                .from("STALKER")
                 .withPrimaryKey("id")
                 .withField("gun")
+                .from("STALKER")
                 .asc()
                 .toString()
         ).isEqualTo("SELECT id, gun FROM STALKER ORDER BY id ASC;");
@@ -77,8 +93,7 @@ public class DatabaseApplicationTests {
 
 
     @Test
-    public void test5() {
-                //Without from
+    public void withoutFrom_shouldReturnErrorMessage() {
         Assertions.assertThat(new QueryBuilder()
                 .select()
                 .withPrimaryKey("id")
@@ -90,12 +105,11 @@ public class DatabaseApplicationTests {
     }
 
     @Test
-    public void test7() {
-            //With field, asc() without parameters without primary key
+    public void ascWithoutPrimarykey_shouldIgnoreAsc() {
         Assertions.assertThat(new QueryBuilder()
                 .select()
-                .from("STALKER")
                 .withField("gun")
+                .from("STALKER")
                 .asc()
                 .toString()
         ).isEqualTo("SELECT gun FROM STALKER;");
@@ -104,16 +118,26 @@ public class DatabaseApplicationTests {
 
 
     @Test
-    public void test8() {
-  //With field, desc() without parameters without primary key
+    public void descWithoutPrimarykey_shouldIgnoreDesc() {
         Assertions.assertThat(new QueryBuilder()
                 .select()
-                .from("STALKER")
                 .withField("gun")
+                .from("STALKER")
                 .desc()
                 .toString()
         ).isEqualTo("SELECT gun FROM STALKER;");
-        //test
+    }
+
+    @Test
+    public void SQLInjectionInFrom_shouldReturnErrorMessage(){
+        Assertions.assertThat(new QueryBuilder()
+                .select()
+                .withField("gun")
+                .from("STALKER; SELECT hack FROM HACKER")
+                .desc()
+                .toString()
+        ).isEqualTo("Sosat\'");
+
     }
 
 }
