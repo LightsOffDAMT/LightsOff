@@ -51,7 +51,7 @@ public class UpdateQueryBuilderTests {
                 .from("STALKER")
                 .where("$ = 10", "artifacts")
                 .toString()
-        ).isEqualTo("UPDATE STALKER SET guns = 5 WHERE artifacts = 5;");
+        ).isEqualTo("UPDATE STALKER SET guns = 5 WHERE artifacts = 10;");
     }
 
     @Test

@@ -8,12 +8,13 @@ import java.util.ArrayList;
  * Every method except {@link #toString() toString()} returns an object of SelectQueryBuilder for method chaining.
  * Building result is returned by calling {@link #toString() toString()} method.
  */
-public class SelectQueryBuilder {
+public class    SelectQueryBuilder {
     private String primaryKey = "";
     private ArrayList<String> fields = new ArrayList<>();
     private String ascField = "";
     private String descField = "";
     private String from = "";
+    private boolean selectAll = false;
     private boolean asc = false;
     private boolean desc = false;
 
@@ -110,7 +111,7 @@ public class SelectQueryBuilder {
     }
 
     public SelectQueryBuilder all(){
-
+        selectAll = true;
         return this;
     }
 
@@ -127,8 +128,7 @@ public class SelectQueryBuilder {
             return "Sosat\'";
         }
         String query = "SELECT";
-        //alwats true???
-        if(fields.size() == 0 && primaryKey.length() == 0 && primaryKey.length() == 0){
+        if(selectAll){
             query += " *";
         } else {
             if(primaryKey.length() > 0)
@@ -159,6 +159,8 @@ public class SelectQueryBuilder {
     }
 
     private void validation() throws SQLException{
+        if(!selectAll && fields.size() == 0)
+            throw new SQLException("Choose fields to select");
         if(asc && !isFieldPresent(ascField))
             throw new SQLException("Field" + ascField + " - not found");
         if(desc && !isFieldPresent(descField))

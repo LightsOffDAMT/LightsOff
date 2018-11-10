@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class DeleteQueryBuilder {
     private String from = "";
     private String where = "";
+    private boolean deleteAll = false;
 
     public DeleteQueryBuilder(){
         super();
@@ -30,6 +31,11 @@ public class DeleteQueryBuilder {
         return this;
     }
 
+    public DeleteQueryBuilder all(){
+        deleteAll = true;
+        return this;
+    }
+
     @Override
     public String toString() {
         try{
@@ -40,17 +46,12 @@ public class DeleteQueryBuilder {
         }
         String query = "DELETE FROM ";
         query += from + " ";
-        if(where.length() == 0){
+        if(deleteAll){
             query += "*;";
             return query;
         }
         query += "WHERE " + where + ";";
         return query;
-    }
-
-    public DeleteQueryBuilder all(){
-        // ...
-        return this;
     }
 
     private void validation() throws SQLException{
@@ -60,5 +61,7 @@ public class DeleteQueryBuilder {
             throw new SQLException("Forbidden symbol - \';\' in from()");
         if(where.contains(";"))
             throw new SQLException("Forbidden symbol - \';\' in where()");
+        if(where.length() == 0 && !deleteAll)
+            throw new SQLException("Columns to delete is missing");
     }
 }
