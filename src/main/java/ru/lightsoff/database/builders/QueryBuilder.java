@@ -32,5 +32,9 @@ public class QueryBuilder {
     public UpdateQueryBuilder update(){
         return new UpdateQueryBuilder();
     }
+
+    public CreateQueryBuilder create(){
+        return new CreateQueryBuilder();
+    }
 }
 
