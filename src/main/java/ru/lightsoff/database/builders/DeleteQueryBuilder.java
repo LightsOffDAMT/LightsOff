@@ -5,6 +5,11 @@ import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Provides methods for building DELETE SQL request.
+ * Every method except {@link #toString() toString()} returns an object of DeleteQueryBuilder for method chaining.
+ * Building result is returned by calling {@link #toString() toString()} method.
+ */
 public class DeleteQueryBuilder {
     private String from = "";
     private String where = "";
@@ -14,12 +19,21 @@ public class DeleteQueryBuilder {
         super();
     }
 
+    /**
+     * Sets table to delete from.
+     * @param table
+     */
     public DeleteQueryBuilder from(String table){
         from = table;
         return this;
     }
 
-    // Зачем такая логика Where если по факту все равно пишешь ту же строчку только труднее?
+
+    /**
+     * Set WHERE condition. Example of usage: where("$ > 10", something);
+     * @param pattern String pattern.
+     * @param args Field names to be included in place of $.
+     */
     public DeleteQueryBuilder where(String pattern, String ... args){
         try{
             String buffer = pattern.replace("$", "%s");
@@ -31,11 +45,18 @@ public class DeleteQueryBuilder {
         return this;
     }
 
+    /**
+     * Delete all rows in table.
+     */
     public DeleteQueryBuilder all(){
         deleteAll = true;
         return this;
     }
 
+    /**
+     * Builds the result query.
+     * @return String as a result query.
+     */
     @Override
     public String toString() {
         try{
@@ -53,6 +74,7 @@ public class DeleteQueryBuilder {
         query += "WHERE " + where + ";";
         return query;
     }
+
 
     private void validation() throws SQLException{
         if(from.equals(""))

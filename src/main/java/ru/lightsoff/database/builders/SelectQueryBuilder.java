@@ -110,6 +110,9 @@ public class    SelectQueryBuilder {
         return this;
     }
 
+    /**
+     * Select all fields in table.
+     */
     public SelectQueryBuilder all(){
         selectAll = true;
         return this;
