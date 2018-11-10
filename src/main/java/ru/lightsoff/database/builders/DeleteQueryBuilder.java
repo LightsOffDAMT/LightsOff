@@ -18,6 +18,7 @@ public class DeleteQueryBuilder {
         return this;
     }
 
+    // Зачем такая логика Where если по факту все равно пишешь ту же строчку только труднее?
     public DeleteQueryBuilder where(String pattern, String ... args){
         try{
             String buffer = pattern.replace("$", "%s");
@@ -45,6 +46,11 @@ public class DeleteQueryBuilder {
         }
         query += "WHERE " + where + ";";
         return query;
+    }
+
+    public DeleteQueryBuilder all(){
+        // ...
+        return this;
     }
 
     private void validation() throws SQLException{
