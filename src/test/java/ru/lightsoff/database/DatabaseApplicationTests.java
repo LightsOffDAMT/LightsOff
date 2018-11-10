@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.lightsoff.database.builders.QueryBuilder;
 import ru.lightsoff.database.builders.SelectQueryBuilder;
 
 import java.sql.SQLException;
@@ -19,7 +20,8 @@ public class DatabaseApplicationTests {
     @Test
     public void contextLoads() {
           //With multiple single fields, ascending by field
-        Assertions.assertThat(new SelectQueryBuilder()
+        Assertions.assertThat(new QueryBuilder()
+                .select()
                 .from("STALKER")
                 .withField("gun")
                 .withField("artifacts")
@@ -33,7 +35,8 @@ public class DatabaseApplicationTests {
     @Test
     public void test2() {
         //With array of fields, descending by field
-        Assertions.assertThat(new SelectQueryBuilder()
+        Assertions.assertThat(new QueryBuilder()
+                .select()
                 .from("STALKER")
                 .withFields(new ArrayList<>(Arrays.asList("gun", "artifacts")))
                 .desc("artifacts")
@@ -46,7 +49,8 @@ public class DatabaseApplicationTests {
     @Test
     public void test3() {
          //With primary key, with field, descending by primary key
-        Assertions.assertThat(new SelectQueryBuilder()
+        Assertions.assertThat(new QueryBuilder()
+                .select()
                 .from("STALKER")
                 .withPrimaryKey("id")
                 .withField("gun")
@@ -60,7 +64,8 @@ public class DatabaseApplicationTests {
     @Test
     public void test4() {
           //With primary key, with field, ascending by primary key
-        Assertions.assertThat(new SelectQueryBuilder()
+        Assertions.assertThat(new QueryBuilder()
+                .select()
                 .from("STALKER")
                 .withPrimaryKey("id")
                 .withField("gun")
@@ -74,7 +79,8 @@ public class DatabaseApplicationTests {
     @Test
     public void test5() {
                 //Without from
-        Assertions.assertThat(new SelectQueryBuilder()
+        Assertions.assertThat(new QueryBuilder()
+                .select()
                 .withPrimaryKey("id")
                 .withField("gun")
                 .desc()
@@ -83,21 +89,11 @@ public class DatabaseApplicationTests {
 
     }
 
-
-    @Test
-    public void test6() {
-         Assertions.assertThatExceptionOfType(SQLException.class).isThrownBy(() -> new SelectQueryBuilder()
-                .withPrimaryKey("id")
-                .withField("gun")
-                .desc()
-                .toString());
-
-    }
-
     @Test
     public void test7() {
             //With field, asc() without parameters without primary key
-        Assertions.assertThat(new SelectQueryBuilder()
+        Assertions.assertThat(new QueryBuilder()
+                .select()
                 .from("STALKER")
                 .withField("gun")
                 .asc()
@@ -110,7 +106,8 @@ public class DatabaseApplicationTests {
     @Test
     public void test8() {
   //With field, desc() without parameters without primary key
-        Assertions.assertThat(new SelectQueryBuilder()
+        Assertions.assertThat(new QueryBuilder()
+                .select()
                 .from("STALKER")
                 .withField("gun")
                 .desc()
