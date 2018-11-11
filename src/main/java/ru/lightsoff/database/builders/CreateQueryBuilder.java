@@ -1,13 +1,11 @@
 package ru.lightsoff.database.builders;
 
-import javafx.util.Pair;
-
 import java.util.ArrayList;
 
 public class CreateQueryBuilder {
     private ArrayList<String> columns = new ArrayList<>();
     private ArrayList<ColumnType> types = new ArrayList<>();
-    private ArrayList<String> contraints = new ArrayList<>();
+    private ArrayList<String> constraints = new ArrayList<>();
     private String name = "";
 
     public class FieldConstructor{
@@ -36,7 +34,7 @@ public class CreateQueryBuilder {
         public CreateQueryBuilder and(){
             columns.add(columnName);
             types.add(columnType);
-            contraints.add(columnConstraint);
+            constraints.add(columnConstraint);
             return CreateQueryBuilder.this;
         }
     }
@@ -56,8 +54,8 @@ public class CreateQueryBuilder {
         query += name + " (\n";
         for(int i = 0; i < columns.size(); i++){
             query += "\t" + columns.get(i) + "\t" + types.get(i);
-            if(contraints.get(i).length() > 0)
-                query += "\t" + contraints.get(i);
+            if(constraints.get(i).length() > 0)
+                query += "\t" + constraints.get(i);
             if(i == columns.size() - 1)
                 query += "\n";
             else
