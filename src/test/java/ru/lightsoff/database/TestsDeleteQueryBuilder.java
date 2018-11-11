@@ -10,7 +10,7 @@ import ru.lightsoff.database.builders.QueryBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DeleteQueryBuilderTests {
+public class TestsDeleteQueryBuilder {
 
     @Test
     public void withGreaterAndLesserThanInWhere(){

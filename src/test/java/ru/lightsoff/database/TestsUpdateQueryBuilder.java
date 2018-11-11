@@ -9,7 +9,7 @@ import ru.lightsoff.database.builders.QueryBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UpdateQueryBuilderTests {
+public class TestsUpdateQueryBuilder {
 
     @Test
     public void withOneSet(){
