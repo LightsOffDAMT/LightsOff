@@ -12,6 +12,12 @@ import ru.lightsoff.database.builders.QueryBuilder;
 public class TestsInsertQueryBuilder {
     @Test
     public void Test() {
+        Assertions.assertThat(new QueryBuilder()
+                .insert
+                .from("STALKER")
+                .toString()
+        ).isEqualTo("Error");
+
 
     }
 }

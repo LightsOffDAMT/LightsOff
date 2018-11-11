@@ -1,6 +1,7 @@
 package ru.lightsoff.database.builders;
 
 // Check if these returns are even necessary
+
 /**
  * Provides methods to choose which SQL operation to start building.
  */
@@ -35,6 +36,10 @@ public class QueryBuilder {
 
     public CreateQueryBuilder create(){
         return new CreateQueryBuilder();
+    }
+
+    public InsertQueryBuilder insert(){
+        return new InsertQueryBuilder();
     }
 }
 
