@@ -54,6 +54,11 @@ public class UpdateQueryBuilder {
         return this;
     }
 
+
+    /**
+     * Builds the result query.
+     * @return String as a result query.
+     */
     @Override
     public String toString() {
         try {

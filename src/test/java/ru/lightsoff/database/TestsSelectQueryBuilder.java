@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SelectQueryBuilderTests {
+public class TestsSelectQueryBuilder {
 
     // Maybe the order of the fields should not matter
     @Test
