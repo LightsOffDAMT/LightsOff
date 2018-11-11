@@ -42,6 +42,7 @@ public class TestsCreateQueryBuilder {
                 .withField()
                 .name("guns1")
                 .type(ColumnType.INTEGER)
+                .constraint("PRIMARY KEY")
                 .and()
                 .withField()
                 .name("guns2")
@@ -65,8 +66,9 @@ public class TestsCreateQueryBuilder {
                 "\tguns2\ttext,\n" +
                 "\tguns3\tserial,\n" +
                 "\tguns4\tdate,\n" +
-                "\tguns5\tinterval,\n" +
+                "\tguns5\tinterval\n" +
                 ");");
 
     }
+
 }
