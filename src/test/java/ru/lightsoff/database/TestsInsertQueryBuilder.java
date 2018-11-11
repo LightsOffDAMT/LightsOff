@@ -17,12 +17,10 @@ public class TestsInsertQueryBuilder {
                 .into("STALKER")
                 .withColumn("guns")
                 .withColumn("artifacts")
-
                 .withRow()
-                .withValue("1")
-                .withValue("2")
+                    .withValue("1")
+                    .withValue("2")
                 .and()
-
                 .toString()
         ).isEqualTo("INSERT INTO STALKER (guns, artifacts) VALUES (1, 2);");
     }
@@ -34,22 +32,18 @@ public class TestsInsertQueryBuilder {
                 .into("STALKER")
                 .withColumn("guns")
                 .withColumn("artifacts")
-
                 .withRow()
-                .withValue("1")
-                .withValue("2")
+                    .withValue("1")
+                    .withValue("2")
                 .and()
-
                 .withRow()
-                .withValue("3")
-                .withValue("4")
+                    .withValue("3")
+                    .withValue("4")
                 .and()
-
                 .withRow()
-                .withValue("5")
-                .withValue("6")
+                    .withValue("5")
+                    .withValue("6")
                 .and()
-
                 .toString()
         ).isEqualTo("INSERT INTO STALKER (guns, artifacts) VALUES (1, 2), (3, 4), (5, 6);");
     }
@@ -61,10 +55,9 @@ public class TestsInsertQueryBuilder {
                 .insert()
                 .withColumn("guns")
                 .withColumn("artifacts")
-
                 .withRow()
-                .withValue("1")
-                .withValue("2")
+                    .withValue("1")
+                    .withValue("2")
                 .and()
 
                 .toString()
@@ -88,12 +81,10 @@ public class TestsInsertQueryBuilder {
                 .into("STALKER; SELECT hacker FROM HACKER;")
                 .withColumn("guns")
                 .withColumn("artifacts")
-
                 .withRow()
-                .withValue("1")
-                .withValue("2")
+                    .withValue("1")
+                    .withValue("2")
                 .and()
-
                 .toString()
         ).isEqualTo("Error");
 
@@ -105,11 +96,9 @@ public class TestsInsertQueryBuilder {
                 .insert()
                 .into("STALKER")
                 .withColumn("guns; SELECT hacker FROM HACKER;")
-
                 .withRow()
-                .withValue("1")
+                    .withValue("1")
                 .and()
-
                 .toString()
         ).isEqualTo("Error");
 
@@ -122,11 +111,9 @@ public class TestsInsertQueryBuilder {
                 .into("STALKER")
                 .withColumn("guns")
                 .withColumn("artifacts")
-
                 .withRow()
-                .withValue("1; SELECT hacker FROM HACKER;")
+                    .withValue("1; SELECT hacker FROM HACKER;")
                 .and()
-
                 .toString()
         ).isEqualTo("Error");
 
