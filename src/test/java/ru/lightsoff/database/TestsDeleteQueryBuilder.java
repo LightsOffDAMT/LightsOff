@@ -58,7 +58,7 @@ public class TestsDeleteQueryBuilder {
                 .delete()
                 .where("$ = 5;", "guns")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 
     @Test
@@ -67,7 +67,7 @@ public class TestsDeleteQueryBuilder {
                 .delete()
                 .from("STALKER")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 
     public void deleteAll(){
@@ -86,7 +86,7 @@ public class TestsDeleteQueryBuilder {
                 .from("STALKER")
                 .where("$ = 5; SELECT hacker FROM HACKER", "guns")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 
     @Test
@@ -96,6 +96,6 @@ public class TestsDeleteQueryBuilder {
                 .all()
                 .from("STALKER; SELECT hacker FROM HACKER;")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 }

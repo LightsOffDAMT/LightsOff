@@ -49,7 +49,7 @@ public class TestsSelectQueryBuilder {
                 .select()
                 .from("STALKER")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
 
     }
 
@@ -100,7 +100,7 @@ public class TestsSelectQueryBuilder {
                 .withField("gun")
                 .desc()
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
 
     }
 
@@ -136,7 +136,7 @@ public class TestsSelectQueryBuilder {
                 .from("STALKER; SELECT hack FROM HACKER")
                 .desc()
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
 
     }
 

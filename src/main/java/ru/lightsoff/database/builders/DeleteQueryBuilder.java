@@ -63,7 +63,7 @@ public class DeleteQueryBuilder {
             validation();
         } catch (SQLException e){
             e.printStackTrace();
-            return "Sosat'";
+            return "Error";
         }
         String query = "DELETE FROM ";
         query += from + " ";

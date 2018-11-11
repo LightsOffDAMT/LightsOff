@@ -65,7 +65,7 @@ public class UpdateQueryBuilder {
             validation();
         } catch (SQLException e) {
             e.printStackTrace();
-            return "Sosat'";
+            return "Error";
         }
         String query = "UPDATE ";
         query += from;
