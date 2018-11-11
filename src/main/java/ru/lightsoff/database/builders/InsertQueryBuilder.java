@@ -63,7 +63,7 @@ public class InsertQueryBuilder {
                 query += itInner + ", ";
             }
             query = query.substring(0, query.length() - 2);
-            query += "),\n";
+            query += "), ";
         }
         query = query.substring(0, query.length() - 2);
         return query + ";";
