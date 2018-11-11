@@ -1,4 +1,4 @@
 ru.lightsoff.database
 ru.lightsoff.database.builders
-ru.lightsoff.database.interfacesDAO
-ru.lightsoff.database.interfacesDAO.QueryObjects
+ru.lightsoff.database.DAO
+ru.lightsoff.database.DAO.QueryObjects

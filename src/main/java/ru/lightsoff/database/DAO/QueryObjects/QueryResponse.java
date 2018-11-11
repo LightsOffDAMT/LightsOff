@@ -1,4 +1,4 @@
-package ru.lightsoff.database.interfacesDAO.QueryObjects;
+package ru.lightsoff.database.DAO.QueryObjects;
 
 public class QueryResponse<T> {
     private String status = "";

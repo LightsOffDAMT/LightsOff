@@ -1,8 +1,8 @@
-package ru.lightsoff.database.interfacesDAO;
+package ru.lightsoff.database.DAO;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.lightsoff.database.interfacesDAO.QueryObjects.QueryResponse;
+import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 
 public interface ObjectDAO<T> {
     Mono<QueryResponse<T>> update(T object);
