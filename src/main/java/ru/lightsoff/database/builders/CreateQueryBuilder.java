@@ -55,7 +55,11 @@ public class CreateQueryBuilder {
         String query = "CREATE TABLE ";
         query += name + " (\n";
         for(int i = 0; i < columns.size(); i++){
-            query += "\t" + columns.get(i) + "\t" + types.get(i) + "\t" + contraints.get(i) + ",\n";
+            query += "\t" + columns.get(i) + "\t" + types.get(i) + "\t" + contraints.get(i);
+            if(i == columns.size() - 1)
+                query += "\n";
+            else
+                query += ",\n";
         }
         query += ");";
         return query;
