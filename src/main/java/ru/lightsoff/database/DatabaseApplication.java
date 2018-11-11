@@ -2,15 +2,17 @@ package ru.lightsoff.database;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import ru.lightsoff.database.builders.ColumnType;
 import ru.lightsoff.database.builders.DeleteQueryBuilder;
+import ru.lightsoff.database.builders.InsertQueryBuilder;
 import ru.lightsoff.database.builders.QueryBuilder;
 
 @SpringBootApplication
 public class DatabaseApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DatabaseApplication.class, args);
+        ApplicationContext context = SpringApplication.run(DatabaseApplication.class, args);
     }
 
 }

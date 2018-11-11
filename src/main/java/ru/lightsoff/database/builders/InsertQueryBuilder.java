@@ -15,7 +15,7 @@ public class InsertQueryBuilder {
     public class FieldConstructor{
         private ArrayList<String> fields = new ArrayList<>();
 
-        public FieldConstructor with(String value){
+        public FieldConstructor withValue(String value){
             fields.add(value);
             return this;
         }
@@ -42,7 +42,31 @@ public class InsertQueryBuilder {
 
     @Override
     public String toString() {
-        return super.toString();
+        try{
+            validate();
+        } catch (SQLException e){
+            return "Error";
+        }
+        String query = "INSERT INTO ";
+        query += into + " ";
+        if(columns.size() != 0){
+            query += "(";
+            for(String it: columns)
+                query += it + ',';
+            query = query.substring(0, query.length() - 1);
+            query += ") ";
+        }
+        query += "VALUES ";
+        for(ArrayList<String> it: properties){
+            query += "(";
+            for(String itInner: it){
+                query += itInner + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
+            query += "),\n";
+        }
+        query = query.substring(0, query.length() - 2);
+        return query + ";";
     }
 
     private boolean enoughValues(ArrayList<ArrayList<String>> array){
@@ -71,5 +95,7 @@ public class InsertQueryBuilder {
             throw new SQLException("amount of VALUES should be equal to " + columns.size());
         if(!sqlInjectionCheck())
             throw new SQLException();
+        if(into.length() == 0)
+            throw new SQLException("INTO table is missing");
     }
 }
