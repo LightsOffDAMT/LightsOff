@@ -52,8 +52,8 @@ public class InsertQueryBuilder {
         if(columns.size() != 0){
             query += "(";
             for(String it: columns)
-                query += it + ',';
-            query = query.substring(0, query.length() - 1);
+                query += it + ", ";
+            query = query.substring(0, query.length() - 2);
             query += ") ";
         }
         query += "VALUES ";
