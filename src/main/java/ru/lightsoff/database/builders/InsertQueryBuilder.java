@@ -45,6 +45,7 @@ public class InsertQueryBuilder {
         try{
             validate();
         } catch (SQLException e){
+            e.printStackTrace();
             return "Error";
         }
         String query = "INSERT INTO ";
