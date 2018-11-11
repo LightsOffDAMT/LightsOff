@@ -72,7 +72,7 @@ public class TestsUpdateQueryBuilder {
                 .set("$ = 5", "guns")
                 .where("$ = 5", "guns")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 
     @Test
@@ -82,7 +82,7 @@ public class TestsUpdateQueryBuilder {
                 .from("STALKER")
                 .set("$ = 5", "guns")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 
     @Test
@@ -92,7 +92,7 @@ public class TestsUpdateQueryBuilder {
                 .from("STALKER")
                 .where("$ = 5", "guns")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 
     @Test
@@ -135,7 +135,7 @@ public class TestsUpdateQueryBuilder {
                 .from("STALKER")
                 .where("$ = 5; SELECT hacker FROM HACKER", "guns")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 
     @Test
@@ -145,7 +145,7 @@ public class TestsUpdateQueryBuilder {
                 .all()
                 .from("STALKER; SELECT hacker FROM HACKER;")
                 .toString()
-        ).isEqualTo("Sosat\'");
+        ).isEqualTo("Error");
     }
 
 }

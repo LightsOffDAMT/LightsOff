@@ -128,7 +128,7 @@ public class    SelectQueryBuilder {
             validation();
         } catch (SQLException e){
             e.printStackTrace();
-            return "Sosat\'";
+            return "Error";
         }
         String query = "SELECT";
         if(selectAll){
