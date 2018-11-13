@@ -32,4 +32,24 @@ public class Player {
     }
 
     private int posiiton;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setInventory(int[][] inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setStats(int[] stats) {
+        this.stats = stats;
+    }
+
+    public void setUserID(long userID) {
+        this.userID = userID;
+    }
 }

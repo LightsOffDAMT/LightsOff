@@ -17,6 +17,7 @@ public class    SelectQueryBuilder {
     private boolean selectAll = false;
     private boolean asc = false;
     private boolean desc = false;
+    private String where = "";
 
     public SelectQueryBuilder(){
         super();
@@ -141,6 +142,8 @@ public class    SelectQueryBuilder {
             query = query.substring(0, query.length() - 1);
         }
         query += " FROM " + from;
+        if(where.length() > 0)
+            query += " WHERE " + where;
         if(asc || desc)
             query += " ORDER BY ";
         if (asc)
@@ -150,6 +153,12 @@ public class    SelectQueryBuilder {
         if(desc)
             query += descField + " DESC";
         return query + ";";
+    }
+
+    public SelectQueryBuilder where(String pattern, String ... args){
+        String buffer = pattern.replace("$", "%s");
+        where = String.format(buffer, args);
+        return this;
     }
 
     private boolean isFieldPresent(String key){
@@ -177,6 +186,8 @@ public class    SelectQueryBuilder {
         if(ascField.contains(";"))
             throw new SQLException();
         if(descField.contains(";"))
+            throw new SQLException();
+        if(where.contains(";"))
             throw new SQLException();
         for(String it: fields)
             if(it.contains(";"))
