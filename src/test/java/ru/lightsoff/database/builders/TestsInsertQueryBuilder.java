@@ -1,4 +1,4 @@
-package ru.lightsoff.database;
+package ru.lightsoff.database.builders;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -9,7 +9,7 @@ import ru.lightsoff.database.builders.QueryFactory;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestsInsertQueryFactory {
+public class TestsInsertQueryBuilder {
     @Test
     public void insertOneRow() {
         Assertions.assertThat(QueryFactory

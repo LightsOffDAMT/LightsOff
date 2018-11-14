@@ -1,4 +1,4 @@
-package ru.lightsoff.database;
+package ru.lightsoff.database.builders;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestsSelectQueryFactory {
+public class TestsSelectQueryBuilder {
 
     // Maybe the order of the fields should not matter
     @Test

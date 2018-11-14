@@ -1,4 +1,4 @@
-package ru.lightsoff.database;
+package ru.lightsoff.database.builders;
 
 
 import org.assertj.core.api.Assertions;
@@ -10,7 +10,7 @@ import ru.lightsoff.database.builders.QueryFactory;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestsDeleteQueryFactory {
+public class TestsDeleteQueryBuilder {
 
     @Test
     public void withGreaterAndLesserThanInWhere(){
