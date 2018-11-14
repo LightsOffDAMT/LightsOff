@@ -5,14 +5,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.lightsoff.database.builders.QueryBuilder;
+import ru.lightsoff.database.builders.QueryFactory;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestsInsertQueryBuilder {
+public class TestsInsertQueryFactory {
     @Test
     public void insertOneRow() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .insert()
                 .into("STALKER")
                 .withColumn("guns")
@@ -27,7 +27,7 @@ public class TestsInsertQueryBuilder {
 
     @Test
     public void insertThreeRows() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .insert()
                 .into("STALKER")
                 .withColumn("guns")
@@ -51,7 +51,7 @@ public class TestsInsertQueryBuilder {
 
     @Test
     public void noInto_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .insert()
                 .withColumn("guns")
                 .withColumn("artifacts")
@@ -66,7 +66,7 @@ public class TestsInsertQueryBuilder {
 
     @Test
     public void noRows_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .insert()
                 .withColumn("guns")
                 .withColumn("artifacts")
@@ -76,7 +76,7 @@ public class TestsInsertQueryBuilder {
 
     @Test
     public void SQLInjectionInInto_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .insert()
                 .into("STALKER; SELECT hacker FROM HACKER;")
                 .withColumn("guns")
@@ -92,7 +92,7 @@ public class TestsInsertQueryBuilder {
 
     @Test
     public void SQLInjectionInColumn_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .insert()
                 .into("STALKER")
                 .withColumn("guns; SELECT hacker FROM HACKER;")
@@ -106,7 +106,7 @@ public class TestsInsertQueryBuilder {
 
     @Test
     public void SQLInjectionInRow_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .insert()
                 .into("STALKER")
                 .withColumn("guns")

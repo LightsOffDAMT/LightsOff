@@ -6,15 +6,15 @@ public class QueryResponse<T> {
     private T data;
 
     public String getStatus() {
-        return null;
+        return status;
     }
 
     public Long getTime() {
-        return null;
+        return time;
     }
 
     public T getData() {
-        return null;
+        return data;
     }
 
     public QueryResponse<T> withStatus(String status){

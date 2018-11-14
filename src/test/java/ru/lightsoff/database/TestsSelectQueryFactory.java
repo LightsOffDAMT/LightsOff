@@ -5,21 +5,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.lightsoff.database.builders.QueryBuilder;
-import ru.lightsoff.database.builders.SelectQueryBuilder;
+import ru.lightsoff.database.builders.QueryFactory;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestsSelectQueryBuilder {
+public class TestsSelectQueryFactory {
 
     // Maybe the order of the fields should not matter
     @Test
     public void regularRequest() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .withField("gun")
                 .withField("artifacts")
@@ -33,7 +31,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void requestWithArrayOfFields() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .withFields(new ArrayList<>(Arrays.asList("gun", "artifacts")))
                 .from("STALKER")
@@ -45,7 +43,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void withoutFields_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .from("STALKER")
                 .toString()
@@ -55,7 +53,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void selectAll(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .all()
                 .from("STALKER")
@@ -66,7 +64,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void descendingByPrimaryKey() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .withPrimaryKey("id")
                 .withField("gun")
@@ -80,7 +78,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void ascendingByPrimaryKey() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .withPrimaryKey("id")
                 .withField("gun")
@@ -94,7 +92,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void withoutFrom_shouldReturnErrorMessage() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .withPrimaryKey("id")
                 .withField("gun")
@@ -106,7 +104,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void ascWithoutPrimarykey_shouldIgnoreAsc() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .withField("gun")
                 .from("STALKER")
@@ -119,7 +117,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void descWithoutPrimarykey_shouldIgnoreDesc() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .withField("gun")
                 .from("STALKER")
@@ -130,7 +128,7 @@ public class TestsSelectQueryBuilder {
 
     @Test
     public void SQLInjectionInFrom_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .select()
                 .withField("gun")
                 .from("STALKER; SELECT hack FROM HACKER")

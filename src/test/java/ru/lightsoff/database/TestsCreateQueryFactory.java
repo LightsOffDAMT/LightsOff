@@ -6,15 +6,15 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.lightsoff.database.builders.ColumnType;
-import ru.lightsoff.database.builders.QueryBuilder;
+import ru.lightsoff.database.builders.QueryFactory;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestsCreateQueryBuilder {
+public class TestsCreateQueryFactory {
 
     @Test
     public void regularCreate() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .create()
                 .withName("STALKER")
                 .withField()
@@ -36,7 +36,7 @@ public class TestsCreateQueryBuilder {
 
     @Test
     public void withAllTypesOfFields() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .create()
                 .withName("STALKER")
                 .withField()

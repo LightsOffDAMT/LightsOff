@@ -5,15 +5,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.lightsoff.database.builders.QueryBuilder;
+import ru.lightsoff.database.builders.QueryFactory;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestsUpdateQueryBuilder {
+public class TestsUpdateQueryFactory {
 
     @Test
     public void withOneSet(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .from("STALKER")
                 .set("$ = 5", "guns")
@@ -24,7 +24,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void withTwoSets(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .from("STALKER")
                 .set("$ = 5, $ = 7", "guns", "bottles")
@@ -34,7 +34,7 @@ public class TestsUpdateQueryBuilder {
     } @Test
     
     public void withGreaterAndLesserThanInWhere(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .from("STALKER")
                 .set("$ = 5", "guns")
@@ -45,7 +45,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void withOneEqualInWhere(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .set("$ = 5", "guns")
                 .from("STALKER")
@@ -56,7 +56,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void withTwoEqualsInWhere(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .from("STALKER")
                 .set("$ = 5", "guns")
@@ -67,7 +67,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void withoutFrom_shouldReturnErrorMessage() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .set("$ = 5", "guns")
                 .where("$ = 5", "guns")
@@ -77,7 +77,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void withoutWhere_shouldReturnErrorMessage() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .from("STALKER")
                 .set("$ = 5", "guns")
@@ -87,7 +87,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void withoutSet_shouldReturnErrorMessage() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .from("STALKER")
                 .where("$ = 5", "guns")
@@ -97,7 +97,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void updateAll(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .all()
                 .from("STALKER")
@@ -108,7 +108,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void withStringLiteralInSet(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .all()
                 .from("STALKER")
@@ -119,7 +119,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void withStringLiteralInWhere(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .from("STALKER")
                 .set("$ = 5", "guns")
@@ -130,7 +130,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void SQLInjectionInWhere_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .from("STALKER")
                 .where("$ = 5; SELECT hacker FROM HACKER", "guns")
@@ -140,7 +140,7 @@ public class TestsUpdateQueryBuilder {
 
     @Test
     public void SQLInjectionInFrom_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .update()
                 .all()
                 .from("STALKER; SELECT hacker FROM HACKER;")

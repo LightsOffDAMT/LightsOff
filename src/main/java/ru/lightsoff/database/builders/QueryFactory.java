@@ -5,8 +5,8 @@ package ru.lightsoff.database.builders;
 /**
  * Provides methods to choose which SQL operation to start building.
  */
-public class QueryBuilder {
-    public QueryBuilder(){
+public class QueryFactory {
+    public QueryFactory(){
         super();
     }
 
@@ -14,7 +14,7 @@ public class QueryBuilder {
      * Start building SELECT query
      * @return SelectQueryBuilder object
      */
-    public SelectQueryBuilder select(){
+    public static SelectQueryBuilder select(){
         return new SelectQueryBuilder();
     }
 
@@ -22,7 +22,7 @@ public class QueryBuilder {
      * Start building DELETE query
      * @return DeleteQueryBuilder object
      */
-    public DeleteQueryBuilder delete(){
+    public static DeleteQueryBuilder delete(){
         return new DeleteQueryBuilder();
     }
 
@@ -30,15 +30,21 @@ public class QueryBuilder {
      * Start building UPDATE query
      * @return DeleteQueryBuilder object
      */
-    public UpdateQueryBuilder update(){
+    public static UpdateQueryBuilder update(){
         return new UpdateQueryBuilder();
     }
-
-    public CreateQueryBuilder create(){
+    /**
+     * Start building CREATE query
+     * @return CreateQueryBuilder object
+     */
+    public static CreateQueryBuilder create(){
         return new CreateQueryBuilder();
     }
-
-    public InsertQueryBuilder insert(){
+    /**
+     * Start building INSERT query
+     * @return InsertQueryBuilder object
+     */
+    public static InsertQueryBuilder insert(){
         return new InsertQueryBuilder();
     }
 }

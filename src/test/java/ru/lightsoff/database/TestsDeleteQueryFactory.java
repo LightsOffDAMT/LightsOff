@@ -6,15 +6,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.lightsoff.database.builders.QueryBuilder;
+import ru.lightsoff.database.builders.QueryFactory;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestsDeleteQueryBuilder {
+public class TestsDeleteQueryFactory {
 
     @Test
     public void withGreaterAndLesserThanInWhere(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .from("STALKER")
                 .where("$ > 5 AND $ < 10", "guns", "artifacts")
@@ -24,7 +24,7 @@ public class TestsDeleteQueryBuilder {
 
     @Test
     public void withOneEqualInWhere(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .from("STALKER")
                 .where("$ = 5", "guns")
@@ -34,7 +34,7 @@ public class TestsDeleteQueryBuilder {
 
     @Test
     public void withTwoEqualsInWhere(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .from("STALKER")
                 .where("$ = 5 AND $ = 10", "guns", "artifacts")
@@ -44,7 +44,7 @@ public class TestsDeleteQueryBuilder {
 
     @Test
     public void withStringLiteralInWhere(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .from("STALKER")
                 .where("$ = 'Strelok'", "name")
@@ -54,7 +54,7 @@ public class TestsDeleteQueryBuilder {
 
     @Test
     public void withoutFrom_shouldReturnErrorMessage() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .where("$ = 5;", "guns")
                 .toString()
@@ -63,7 +63,7 @@ public class TestsDeleteQueryBuilder {
 
     @Test
     public void withoutWhere_shouldReturnErrorMessage() {
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .from("STALKER")
                 .toString()
@@ -71,7 +71,7 @@ public class TestsDeleteQueryBuilder {
     }
 
     public void deleteAll(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .all()
                 .from("STALKER")
@@ -81,7 +81,7 @@ public class TestsDeleteQueryBuilder {
 
     @Test
     public void SQLInjectionInWhere_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .from("STALKER")
                 .where("$ = 5; SELECT hacker FROM HACKER", "guns")
@@ -91,7 +91,7 @@ public class TestsDeleteQueryBuilder {
 
     @Test
     public void SQLInjectionInFrom_shouldReturnErrorMessage(){
-        Assertions.assertThat(new QueryBuilder()
+        Assertions.assertThat(QueryFactory
                 .delete()
                 .all()
                 .from("STALKER; SELECT hacker FROM HACKER;")

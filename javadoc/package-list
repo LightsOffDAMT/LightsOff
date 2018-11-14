@@ -1,4 +1,6 @@
 ru.lightsoff.database
-ru.lightsoff.database.builders
 ru.lightsoff.database.DAO
 ru.lightsoff.database.DAO.QueryObjects
+ru.lightsoff.database.Entities
+ru.lightsoff.database.builders
+ru.lightsoff.database.configuration
