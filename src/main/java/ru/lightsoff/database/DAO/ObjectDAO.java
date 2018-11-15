@@ -23,6 +23,7 @@ public class ObjectDAO<T> {
     private DataSource dataSource;
     @Autowired
     Function<Player, String> selectPlayer;
+    @Autowired
     Function<Player, String> insertPlayer;
     Function<Player, String> deletePlayer;
     Function<Player, String> findByIdPlayer;
@@ -31,12 +32,12 @@ public class ObjectDAO<T> {
 
         return null;
     }
-    Mono<QueryResponse<?>> insert(T object){
+    public  Mono<QueryResponse<?>> insert(T object){
         long startTime = System.currentTimeMillis();
         long finishTime;
         if(object instanceof Player){
             Player entity = (Player)object;
-            String query = selectPlayer.apply(entity);
+            String query = insertPlayer.apply(entity);
             try(Statement statement = dataSource.getConnection().createStatement()) {
                 if(statement.execute(query)){
                     finishTime = System.currentTimeMillis();

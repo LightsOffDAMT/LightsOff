@@ -19,7 +19,7 @@ public class Config {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://127.0.0.1/game@1");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("kkh753");
+        dataSource.setPassword("xna004");
         return dataSource;
     }
 

@@ -1,13 +1,17 @@
 package ru.lightsoff.database.Entities;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class Player {
     private long id;
     private String name;
-    private int[][] inventory;
-    private int[] stats;
+    private ArrayList<ArrayList<Integer>> inventory;
+    private ArrayList<Integer> stats;
     private long userID;
+    private Point position;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -15,23 +19,17 @@ public class Player {
         return name;
     }
 
-    public int[][] getInventory() {
+    public ArrayList<ArrayList<Integer>> getInventory() {
         return inventory;
     }
 
-    public int[] getStats() {
+    public ArrayList<Integer> getStats() {
         return stats;
     }
 
-    public long getUserID() {
+    public Long getUserID() {
         return userID;
     }
-
-    public int getPosiiton() {
-        return posiiton;
-    }
-
-    private int posiiton;
 
     public void setId(long id) {
         this.id = id;
@@ -41,15 +39,23 @@ public class Player {
         this.name = name;
     }
 
-    public void setInventory(int[][] inventory) {
+    public void setUserID(long userID) {
+        this.userID = userID;
+    }
+
+    public void setInventory(ArrayList<ArrayList<Integer>> inventory) {
         this.inventory = inventory;
     }
 
-    public void setStats(int[] stats) {
+    public void setStats(ArrayList<Integer> stats) {
         this.stats = stats;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public Point getPosition() {
+        return position;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
     }
 }
