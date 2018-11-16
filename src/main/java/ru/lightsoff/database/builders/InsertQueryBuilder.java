@@ -100,7 +100,7 @@ public class InsertQueryBuilder {
         for(ArrayList<String> it: properties){
             query += "(";
             for(String itInner: it){
-                query += itInner + ", ";
+                query += "\'" + itInner + "\'" + ", ";
             }
             query = query.substring(0, query.length() - 2);
             query += "), ";

@@ -27,7 +27,7 @@ public class EntitySerialization {
                 .insert()
                 .into("PLAYERS")
                 .withColumn("ID")
-                .withColumn("USER_ID")
+                .withColumn("USERID")
                 .withColumn("NAME")
                 .withColumn("INVENTORY")
                 .withColumn("POSITION")

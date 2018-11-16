@@ -1,2 +1,15 @@
 server:
   port: 9001
+spring:
+  profiles: Drew
+  datasource:
+    password: kkh753
+---
+spring:
+  profiles: Danya
+  datasource:
+    password: lol
+---
+spring:
+  profiles:
+    active: Drew
