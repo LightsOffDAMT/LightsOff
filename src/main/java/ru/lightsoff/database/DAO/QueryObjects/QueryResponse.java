@@ -23,7 +23,7 @@ public class QueryResponse<T> {
     }
 
     public QueryResponse<T> withTime(long time){
-        this.time = time;
+        this.time = System.currentTimeMillis() - time;
         return this;
     }
 

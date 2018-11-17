@@ -34,36 +34,30 @@ public class PlayerDAO implements ObjectDAO<Player> {
     @Override
     public Mono<QueryResponse<Player>> insert(Player object) {
         long startTime = System.currentTimeMillis();
-        long finishTime;
-        Player entity = (Player)object;
-        String query = insertPlayer.apply(entity);
-        System.out.println(query);
+        String query = insertPlayer.apply(object);
         try(Statement statement = dataSource.getConnection().createStatement()) {
             if(statement.execute(query)){
-                finishTime = System.currentTimeMillis();
                 return Mono.just
                         (
                                 new QueryResponse<Player>()
                                         .withStatus("Ok")
-                                        .withTime(finishTime - startTime)
+                                        .withTime(startTime)
                         );
             } else {
-                finishTime = System.currentTimeMillis();
                 return Mono.just
                         (
                                 new QueryResponse<Player>()
                                         .withStatus(statement.getWarnings().getMessage())
-                                        .withTime(finishTime - startTime)
+                                        .withTime(startTime)
                         );
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            finishTime = System.currentTimeMillis();
             return Mono.just
                     (
                             new QueryResponse<Player>()
                                     .withStatus(e.getMessage())
-                                    .withTime(finishTime - startTime)
+                                    .withTime(startTime)
                     );
         }
     }
