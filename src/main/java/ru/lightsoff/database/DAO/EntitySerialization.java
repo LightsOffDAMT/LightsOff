@@ -8,6 +8,7 @@ import org.springframework.http.converter.json.GsonFactoryBean;
 import ru.lightsoff.database.Entities.Player;
 import ru.lightsoff.database.builders.QueryFactory;
 
+import java.util.Locale;
 import java.util.function.Function;
 
 @Configuration
@@ -47,7 +48,7 @@ public class EntitySerialization {
                     .withValue(player.getUserID().toString())
                     .withValue(player.getName())
                     .withValue(new Gson().toJson(player.getInventory()))
-                    .withValue(new Gson().toJson(player.getPosition()))
+                    .withValue(String.format(Locale.US, "(%f,%f)", player.getPosition().getX(), player.getPosition().getY()))
                     .withValue(new Gson().toJson(player.getStats()))
                 .and()
                 .toString();
