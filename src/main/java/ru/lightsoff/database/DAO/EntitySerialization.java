@@ -13,12 +13,19 @@ import java.util.function.Function;
 @Configuration
 public class EntitySerialization {
     @Bean
-    public Function<Player, String> selectPlayer(){
+    public Function<Player, String> findAllPlayer(){
         return player -> QueryFactory
-                   .select()
-                   .from("sdsd")
-                   .all()
-                   .toString();
+                .select()
+                .from("sdsd")
+                .all()
+                .toString();
+    }
+
+    @Bean
+    public Function<Player, String> findByIdPlayer(){
+        return player -> QueryFactory
+                .select()
+                .toString();
     }
 
     @Bean

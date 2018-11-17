@@ -20,7 +20,7 @@ public class PlayerDAO implements ObjectDAO<Player> {
     @Autowired
     private DataSource dataSource;
     @Autowired
-    Function<Player, String> selectPlayer;
+    Function<Player, String> findAllPlayer;
     @Autowired
     Function<Player, String> insertPlayer;
     Function<Player, String> deletePlayer;
