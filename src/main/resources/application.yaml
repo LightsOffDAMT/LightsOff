@@ -8,8 +8,8 @@ spring:
 spring:
   profiles: Danya
   datasource:
-    password: lol
+    password: xna004
 ---
 spring:
   profiles:
-    active: Drew
+    active: Danya
