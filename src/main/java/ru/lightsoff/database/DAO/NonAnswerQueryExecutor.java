@@ -10,25 +10,16 @@ import java.sql.Statement;
 import java.util.function.Function;
 
 public class NonAnswerQueryExecutor<T> {
-    public Mono<QueryResponse<T>> execute(Function<T, String> serialization, DataSource dataSource, T object){
+    public Mono<QueryResponse<T>> execute(Function<T, String> serialization, DataSource dataSource, T object) {
         long startTime = System.currentTimeMillis();
         String query = serialization.apply(object);
-        try(Statement statement = dataSource.getConnection().createStatement()) {
-            if(statement.execute(query)){
-                return Mono.just
-                        (
-                                new QueryResponse<T>()
-                                        .withStatus("Ok")
-                                        .withTime(startTime)
-                        );
-            } else {
-                return Mono.just
-                        (
-                                new QueryResponse<T>()
-                                        .withStatus(statement.getWarnings().getMessage())
-                                        .withTime(startTime)
-                        );
-            }
+        try (Statement statement = dataSource.getConnection().createStatement()) {
+            return Mono.just
+                    (
+                            new QueryResponse<T>()
+                                    .withStatus("[OK] Rows changed: " + statement.executeUpdate(query))
+                                    .withTime(startTime)
+                    );
         } catch (SQLException e) {
             e.printStackTrace();
             return Mono.just
