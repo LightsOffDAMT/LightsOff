@@ -4,11 +4,11 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
-    private long id;
+    private Long id;
     private String name;
     private ArrayList<ArrayList<Integer>> inventory;
     private ArrayList<Integer> stats;
-    private long userID;
+    private Long userID;
     private Point position;
 
     public Long getId() {
@@ -31,31 +31,40 @@ public class Player {
         return userID;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setUserID(long userID) {
-        this.userID = userID;
-    }
-
-    public void setInventory(ArrayList<ArrayList<Integer>> inventory) {
-        this.inventory = inventory;
-    }
-
-    public void setStats(ArrayList<Integer> stats) {
-        this.stats = stats;
-    }
-
     public Point getPosition() {
         return position;
     }
 
-    public void setPosition(Point position) {
+
+    public Player withId(long id) {
+        this.id = id;
+        return this;
+    }
+
+    public Player withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+
+
+    public Player withUserID(long userID) {
+        this.userID = userID;
+        return this;
+    }
+
+    public Player withInventory(ArrayList<ArrayList<Integer>> inventory) {
+        this.inventory = inventory;
+        return this;
+    }
+
+    public Player withStats(ArrayList<Integer> stats) {
+        this.stats = stats;
+        return this;
+    }
+
+    public Player withPosition(Point position) {
         this.position = position;
+        return this;
     }
 }

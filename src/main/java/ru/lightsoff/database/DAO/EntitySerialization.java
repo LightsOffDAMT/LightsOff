@@ -16,7 +16,7 @@ public class EntitySerialization {
     public Function<Player, String> findAllPlayer(){
         return player -> QueryFactory
                 .select()
-                .from("sdsd")
+                .from("players")
                 .all()
                 .toString();
     }
@@ -25,6 +25,9 @@ public class EntitySerialization {
     public Function<Player, String> findByIdPlayer(){
         return player -> QueryFactory
                 .select()
+                .from("players")
+                .all()
+                .where("id = $", player.getId().toString())
                 .toString();
     }
 
@@ -32,13 +35,13 @@ public class EntitySerialization {
     public Function<Player, String> insertPlayer(){
         return player -> QueryFactory
                 .insert()
-                .into("PLAYERS")
-                .withColumn("ID")
-                .withColumn("USERID")
-                .withColumn("NAME")
-                .withColumn("INVENTORY")
-                .withColumn("POSITION")
-                .withColumn("STATS")
+                .into("players")
+                .withColumn("id")
+                .withColumn("userid")
+                .withColumn("name")
+                .withColumn("inventory")
+                .withColumn("position")
+                .withColumn("stats")
                 .withRow()
                     .withValue(player.getId().toString())
                     .withValue(player.getUserID().toString())
@@ -47,6 +50,28 @@ public class EntitySerialization {
                     .withValue(new Gson().toJson(player.getPosition()))
                     .withValue(new Gson().toJson(player.getStats()))
                 .and()
+                .toString();
+    }
+
+    @Bean
+    public Function<Player, String> updatePlayer(){
+        return player -> QueryFactory
+                .update()
+                .from("players")
+                .set("id = $, userid = $, name = $, inventory = $, position = $, stats = $",
+                        player.getId().toString(), player.getUserID().toString(), new Gson().toJson(player.getInventory()),
+                        String.format("(%f,%f)", player.getPosition().getX(), player.getPosition().getY()),
+                        new Gson().toJson(player.getStats()))
+                .where("id = $", player.getId().toString())
+                .toString();
+    }
+
+    @Bean
+    public Function<Player, String> deletePlayer(){
+        return player -> QueryFactory
+                .delete()
+                .from("players")
+                .where("id = $", player.getId().toString())
                 .toString();
     }
 }
