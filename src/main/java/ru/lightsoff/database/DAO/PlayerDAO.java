@@ -23,48 +23,24 @@ public class PlayerDAO implements ObjectDAO<Player> {
     Function<Player, String> findAllPlayer;
     @Autowired
     Function<Player, String> insertPlayer;
+    Function<Player, String> updatePlayer;
     Function<Player, String> deletePlayer;
     Function<Player, String> findByIdPlayer;
+    NonAnswerQueryExecutor<Player> queryExecutor = new NonAnswerQueryExecutor<>();
 
     @Override
     public Mono<QueryResponse<Player>> update(Player object) {
-        return null;
+        return queryExecutor.execute(updatePlayer, dataSource, object);
     }
 
     @Override
     public Mono<QueryResponse<Player>> insert(Player object) {
-        long startTime = System.currentTimeMillis();
-        String query = insertPlayer.apply(object);
-        try(Statement statement = dataSource.getConnection().createStatement()) {
-            if(statement.execute(query)){
-                return Mono.just
-                        (
-                                new QueryResponse<Player>()
-                                        .withStatus("Ok")
-                                        .withTime(startTime)
-                        );
-            } else {
-                return Mono.just
-                        (
-                                new QueryResponse<Player>()
-                                        .withStatus(statement.getWarnings().getMessage())
-                                        .withTime(startTime)
-                        );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return Mono.just
-                    (
-                            new QueryResponse<Player>()
-                                    .withStatus(e.getMessage())
-                                    .withTime(startTime)
-                    );
-        }
+        return queryExecutor.execute(insertPlayer, dataSource, object);
     }
 
     @Override
     public Mono<QueryResponse<Player>> delete(Player object) {
-        return null;
+        return queryExecutor.execute(deletePlayer, dataSource, object);
     }
 
     @Override
