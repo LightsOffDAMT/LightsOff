@@ -10,8 +10,6 @@ import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.Player;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.function.Function;
 
 @Component(value = "PlayerDAO")

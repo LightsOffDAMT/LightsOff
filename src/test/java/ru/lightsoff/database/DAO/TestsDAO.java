@@ -35,7 +35,13 @@ public class TestsDAO {
     //Ну корчое в чем суть нужно делать бин датасурс который будет пихаться в плейер дао и автоматически по идее
     //использовать в аннотациях типа @sql
 
-    private Player player = new Player().withId(999).withName("ddd").withInventory(new ArrayList<ArrayList<Integer>>()).withPosition(new Point(1, 2)).withStats(new ArrayList<Integer>()).withUserID(222);
+    private Player player = new Player()
+                                .withId(999)
+                                .withName("ddd")
+                                .withInventory(new ArrayList<ArrayList<Integer>>())
+                                .withPosition(new Point(1, 2))
+                                .withStats(new ArrayList<Integer>())
+                                .withUserID(222);
 
     @Autowired
     PlayerDAO playerDAO;

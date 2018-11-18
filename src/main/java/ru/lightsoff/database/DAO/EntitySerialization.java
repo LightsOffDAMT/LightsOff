@@ -1,10 +1,8 @@
 package ru.lightsoff.database.DAO;
 
 import com.google.gson.Gson;
-import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.GsonFactoryBean;
 import ru.lightsoff.database.Entities.Player;
 import ru.lightsoff.database.builders.QueryFactory;
 
