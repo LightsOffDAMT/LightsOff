@@ -11,6 +11,7 @@ import ru.lightsoff.database.Entities.Player;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class DatabaseApplication {
@@ -21,8 +22,19 @@ public class DatabaseApplication {
         Player player1 = new Player().withId(99932L).withName("ddd").withInventory(new ArrayList<ArrayList<Integer>>()).withPosition(new Point(1, 2)).withStats(new ArrayList<Integer>()).withUserID(222);
         PlayerDAO dao = context.getBean(PlayerDAO.class);
         Mono<QueryResponse<Player>> mono = dao.insert(player);
-        dao.insert(player1);
-        dao.findAll().block().getData().stream().forEach(System.out::println);
+
+        long avg = 0;
+
+        for(int i = 0; i < 100; i++){
+            QueryResponse response = dao
+                    .findAll()
+                    .block();
+            avg += response
+                    .getTime();
+            System.out.println(response.getStatus());
+        }
+        System.out.println(avg / 100);
+
     }
 
 }

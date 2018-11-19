@@ -11,10 +11,7 @@ import ru.lightsoff.database.Entities.Player;
 
 import javax.sql.DataSource;
 import java.awt.*;
-import java.sql.Array;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.function.Function;
 
@@ -66,7 +63,9 @@ public class PlayerDAO implements ObjectDAO<Player> {
 
     private Mono<QueryResponse<ArrayList<Player>>> findQueryExecute(String query, Long startTime){
         ArrayList<Player> result = new ArrayList<>();
-        try(Statement statement = dataSource.getConnection().createStatement()){
+        try{
+            Connection connection = dataSource.getConnection();
+            Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()){
                 result.add(new Player()
@@ -78,6 +77,7 @@ public class PlayerDAO implements ObjectDAO<Player> {
                         .withStats(new Gson().fromJson(resultSet.getString("stats"), ArrayList.class))
                 );
             }
+            connection.close();
             return Mono.just
                     (
                             new QueryResponse<ArrayList<Player>>()
