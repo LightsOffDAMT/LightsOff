@@ -17,11 +17,12 @@ public class DatabaseApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(DatabaseApplication.class, args);
-        Player player = new Player().withId(999).withName("ddd").withInventory(new ArrayList<ArrayList<Integer>>()).withPosition(new Point(1, 2)).withStats(new ArrayList<Integer>()).withUserID(222);
-
-        Mono<QueryResponse<Player>> mono = context.getBean(PlayerDAO.class).insert(player);
-        System.out.println(mono.block().getStatus());
-//        System.out.println(((QueryResponse)(context.getBean(PlayerDAO.class, PlayerDAO.class).insert(new Player(){{this.setId(100); this.setName("asdasd");}}).block())).getData());
+        Player player = new Player().withId(9992L).withName("ddd").withInventory(new ArrayList<ArrayList<Integer>>()).withPosition(new Point(1, 2)).withStats(new ArrayList<Integer>()).withUserID(222);
+        Player player1 = new Player().withId(99932L).withName("ddd").withInventory(new ArrayList<ArrayList<Integer>>()).withPosition(new Point(1, 2)).withStats(new ArrayList<Integer>()).withUserID(222);
+        PlayerDAO dao = context.getBean(PlayerDAO.class);
+        Mono<QueryResponse<Player>> mono = dao.insert(player);
+        dao.insert(player1);
+        dao.findAll().block().getData().stream().forEach(System.out::println);
     }
 
 }

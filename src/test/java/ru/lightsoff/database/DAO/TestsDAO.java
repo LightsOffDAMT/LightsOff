@@ -46,11 +46,6 @@ public class TestsDAO {
     @Autowired
     PlayerDAO playerDAO;
 
-    @Rule
-    public SingleInstancePostgresRule pg = EmbeddedPostgresRules.singleInstance();
-
-
-
     @Test
     public void withOneSet()throws Exception{
         playerDAO.insert(player);

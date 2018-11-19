@@ -1,6 +1,7 @@
 package ru.lightsoff.database.DAO;
 
 import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
+import com.opentable.db.postgres.junit.SingleInstancePostgresRule;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,11 +32,7 @@ public class TestsConfig {
     @Bean
     @Profile("Test")
     DataSource datasource() throws Exception{
-        EmbeddedPostgres postgres = new EmbeddedPostgres(V9_6);
-        String url = postgres.start("localhost", 5432, "testdb", "user", "pass");
-        DataSource dataSource = new DriverManagerDataSource();
-        ((DriverManagerDataSource) dataSource).setUrl(url);
-        return dataSource;
+        return EmbeddedPostgresRules.singleInstance().getEmbeddedPostgres().getPostgresDatabase();
     }
 
 }

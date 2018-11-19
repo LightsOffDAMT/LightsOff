@@ -1,15 +1,21 @@
 package ru.lightsoff.database.DAO;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.Player;
 
 import javax.sql.DataSource;
+import java.awt.*;
+import java.sql.Array;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.function.Function;
 
 @Component(value = "PlayerDAO")
@@ -21,8 +27,11 @@ public class PlayerDAO implements ObjectDAO<Player> {
     Function<Player, String> findAllPlayer;
     @Autowired
     Function<Player, String> insertPlayer;
+    @Autowired
     Function<Player, String> updatePlayer;
+    @Autowired
     Function<Player, String> deletePlayer;
+    @Autowired
     Function<Player, String> findByIdPlayer;
     NonAnswerQueryExecutor<Player> queryExecutor = new NonAnswerQueryExecutor<>();
 
@@ -42,7 +51,49 @@ public class PlayerDAO implements ObjectDAO<Player> {
     }
 
     @Override
-    public Flux<QueryResponse<Player>> findById(String id) {
-        return null;
+    public Mono<QueryResponse<ArrayList<Player>>> findById(Long id) {
+        Long startTime = System.currentTimeMillis();
+        String query = findByIdPlayer.apply(new Player().withId(id));
+        return findQueryExecute(query, startTime);
     }
-}
+
+    @Override
+    public Mono<QueryResponse<ArrayList<Player>>> findAll() {
+        Long startTime = System.currentTimeMillis();
+        String query = findAllPlayer.apply(null);
+        return findQueryExecute(query, startTime);
+    }
+
+    private Mono<QueryResponse<ArrayList<Player>>> findQueryExecute(String query, Long startTime){
+        ArrayList<Player> result = new ArrayList<>();
+        try(Statement statement = dataSource.getConnection().createStatement()){
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()){
+                result.add(new Player()
+                        .withId(Long.valueOf(resultSet.getString("id")))
+                        .withUserID(Long.valueOf(resultSet.getString("userid")))
+                        .withName(resultSet.getString("name"))
+                        .withInventory(new Gson().fromJson(resultSet.getString("inventory"), ArrayList.class))
+                        .withPosition(new Gson().fromJson(resultSet.getString("position"), Point.class))
+                        .withStats(new Gson().fromJson(resultSet.getString("stats"), ArrayList.class))
+                );
+            }
+            return Mono.just
+                    (
+                            new QueryResponse<ArrayList<Player>>()
+                                    .withStatus("[Ok]")
+                                    .withTime(startTime)
+                                    .withData(result)
+                    );
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Mono.just
+                    (
+                            new QueryResponse<ArrayList<Player>>()
+                                    .withStatus("[Error]\n" + e.getMessage())
+                                    .withTime(startTime)
+                                    .withData(null)
+                    );
+        }
+    }
+ }
