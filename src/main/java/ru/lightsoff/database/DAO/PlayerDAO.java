@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.Player;
+import ru.lightsoff.database.Entities.User;
 
 import javax.sql.DataSource;
 import java.awt.*;
