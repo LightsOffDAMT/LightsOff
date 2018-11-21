@@ -1,8 +1,5 @@
 package ru.lightsoff.database.DAO;
 
-import com.opentable.db.postgres.junit.EmbeddedPostgresRules;
-import com.opentable.db.postgres.junit.SingleInstancePostgresRule;
-import com.opentable.db.postgres.junit5.SingleInstancePostgresExtension;
 import org.assertj.core.api.Assertions;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -28,6 +25,7 @@ import javax.sql.DataSource;
 import javax.xml.crypto.Data;
 import java.awt.*;
 import java.util.ArrayList;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration
