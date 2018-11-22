@@ -1,16 +1,16 @@
-package ru.lightsoff.database.DAO;
+package ru.lightsoff.database.DAO.EntitySerializations;
 
 import com.google.gson.Gson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import java.util.function.Function;
 import ru.lightsoff.database.Entities.Player;
 import ru.lightsoff.database.builders.QueryFactory;
 
 import java.util.Locale;
-import java.util.function.Function;
 
 @Configuration
-public class EntitySerialization {
+public class PlayerSerialization {
     @Bean
     public Function<Player, String> findAllPlayer(){
         return player -> QueryFactory
@@ -57,8 +57,8 @@ public class EntitySerialization {
         return player -> QueryFactory
                 .update()
                 .from("players")
-                .set("id = $, userid = $, name = $, inventory = $, position = $, stats = $",
-                        player.getId().toString(), player.getUserID().toString(), new Gson().toJson(player.getInventory()),
+                .set("userid = $, name = $, inventory = $, position = $, stats = $",
+                        player.getUserID().toString(), new Gson().toJson(player.getInventory()),
                         String.format("(%f,%f)", player.getPosition().getX(), player.getPosition().getY()),
                         new Gson().toJson(player.getStats()))
                 .where("id = $", player.getId().toString())
