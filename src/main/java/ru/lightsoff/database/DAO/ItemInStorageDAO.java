@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.ItemInStorage;
+import ru.lightsoff.database.Entities.ItemInStorage;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -59,36 +60,45 @@ public class ItemInStorageDAO implements ObjectDAO<ItemInStorage> {
         return findQueryExecute(query, startTime);
     }
 
-    private Mono<QueryResponse<ArrayList<ItemInStorage>>> findQueryExecute(String query, Long startTime){
-        ArrayList<ItemInStorage> result = new ArrayList<>();
-        try{
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while(resultSet.next()){
-                result.add(new ItemInStorage()
-                        .withId(resultSet.getLong("id"))
-                        .withName(resultSet.getString("name"))
-                        .withProperties(new Gson().fromJson(resultSet.getString("properties"), HashMap.class))
-                );
-            }
-            connection.close();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<ItemInStorage>>()
-                                    .withData(Mono.just(result))
-                                    .withStatus("[OK]")
-                                    .withTime(startTime)
-                    );
-        } catch (SQLException e){
-            e.printStackTrace();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<ItemInStorage>>()
-                                    .withData(null)
-                                    .withStatus("[Error]\n" + e.getMessage())
-                                    .withTime(startTime)
-                    );
-        }
+    private Mono<QueryResponse<ArrayList<ItemInStorage>>> findQueryExecute(final String query, final Long startTime){
+        return Mono
+                .fromCallable(()->{
+                    ArrayList<ItemInStorage> result = new ArrayList<>();
+                    Connection connection = dataSource.getConnection();
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery(query);
+                    while (resultSet.next()){
+                        result.add(new ItemInStorage()
+                                .withId(resultSet.getLong("id"))
+                                .withName(resultSet.getString("name"))
+                                .withProperties(new Gson().fromJson(resultSet.getString("properties"), HashMap.class))
+                        );
+                    }
+                    connection.close();
+                    return result;
+                })
+                .as
+                        (
+                                items -> Mono.just
+                                        (
+                                                new QueryResponse<ArrayList<ItemInStorage>>()
+                                                        .withStatus("[Ok]")
+                                                        .withData(items)
+                                                        .withTime(startTime)
+                                        )
+                        )
+                .onErrorResume
+                        (
+                                throwable -> {
+                                    throwable.printStackTrace();
+                                    return Mono.just
+                                            (
+                                                    new QueryResponse<ArrayList<ItemInStorage>>()
+                                                            .withStatus("[Error]" + throwable.getMessage())
+                                                            .withTime(startTime)
+                                                            .withData(null)
+                                            );
+                                }
+                        );
     }
 }

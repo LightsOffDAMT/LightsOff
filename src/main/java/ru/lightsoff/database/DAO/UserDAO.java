@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
-import ru.lightsoff.database.Entities.Player;
+import ru.lightsoff.database.Entities.User;
 import ru.lightsoff.database.Entities.User;
 
 import javax.sql.DataSource;
@@ -60,39 +60,48 @@ public class UserDAO implements ObjectDAO<User> {
         return findQueryExecute(query, startTime);
     }
 
-    private Mono<QueryResponse<ArrayList<User>>> findQueryExecute(String query, Long startTime){
-        ArrayList<User> result = new ArrayList<>();
-        try{
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while(resultSet.next()){
-                result.add(new User()
-                            .withId(resultSet.getLong("id"))
-                            .online(resultSet.getBoolean("online"))
-                            .withLogin(resultSet.getString("login"))
-                            .withPassword(resultSet.getString("password"))
-                            .withEmail(resultSet.getString("email"))
-                            .withNickname(resultSet.getString("nickname"))
-                );
-            }
-            connection.close();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<User>>()
-                                    .withData(Mono.just(result))
-                                    .withStatus("[OK]")
-                                    .withTime(startTime)
-                    );
-        } catch (SQLException e){
-            e.printStackTrace();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<User>>()
-                                    .withData(null)
-                                    .withStatus("[Error]\n" + e.getMessage())
-                                    .withTime(startTime)
-                    );
-        }
+    private Mono<QueryResponse<ArrayList<User>>> findQueryExecute(final String query, final Long startTime){
+        return Mono
+                .fromCallable(()->{
+                    ArrayList<User> result = new ArrayList<>();
+                    Connection connection = dataSource.getConnection();
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery(query);
+                    while (resultSet.next()){
+                        result.add(new User()
+                                .withId(resultSet.getLong("id"))
+                                .online(resultSet.getBoolean("online"))
+                                .withLogin(resultSet.getString("login"))
+                                .withPassword(resultSet.getString("password"))
+                                .withEmail(resultSet.getString("email"))
+                                .withNickname(resultSet.getString("nickname"))
+                        );
+                    }
+                    connection.close();
+                    return result;
+                })
+                .as
+                        (
+                                users -> Mono.just
+                                        (
+                                                new QueryResponse<ArrayList<User>>()
+                                                        .withStatus("[Ok]")
+                                                        .withData(users)
+                                                        .withTime(startTime)
+                                        )
+                        )
+                .onErrorResume
+                        (
+                                throwable -> {
+                                    throwable.printStackTrace();
+                                    return Mono.just
+                                            (
+                                                    new QueryResponse<ArrayList<User>>()
+                                                            .withStatus("[Error]" + throwable.getMessage())
+                                                            .withTime(startTime)
+                                                            .withData(null)
+                                            );
+                                }
+                        );
     }
 }
