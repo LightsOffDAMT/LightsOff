@@ -1,9 +1,12 @@
 package ru.lightsoff.database.DAO.QueryObjects;
 
+import reactor.core.publisher.Mono;
+
 public class QueryResponse<T> {
     private String status = "";
     private long time = 0;
-    private T data;
+    private Mono<T> data;
+    private T rawData;
 
     public String getStatus() {
         return status;
@@ -13,7 +16,7 @@ public class QueryResponse<T> {
         return time;
     }
 
-    public T getData() {
+    public Mono<T> getData() {
         return data;
     }
 
@@ -27,8 +30,13 @@ public class QueryResponse<T> {
         return this;
     }
 
-    public QueryResponse<T> withData(T data){
+    public QueryResponse<T> withData(Mono<T> data){
         this.data = data;
+        return this;
+    }
+
+    public QueryResponse<T> withRawData(T data){
+        this.rawData = data;
         return this;
     }
 }

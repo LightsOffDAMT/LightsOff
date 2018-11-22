@@ -26,14 +26,14 @@ public class DatabaseApplication {
         long avg = 0;
 
         for(int i = 0; i < 100; i++){
-            QueryResponse response = dao
+            QueryResponse<ArrayList<Player>> response = dao
                     .findAll()
                     .block();
             avg += response
                     .getTime();
             System.out.println(response.getStatus());
         }
-        System.out.println(avg / 100);
+        System.out.println(avg);
 
     }
 

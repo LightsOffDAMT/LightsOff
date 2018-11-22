@@ -16,6 +16,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.function.Function;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
+
 @Component(value = "PlayerDAO")
 public class PlayerDAO implements ObjectDAO<Player> {
     private final Logger log = LoggerFactory.getLogger(ObjectDAO.class);
@@ -62,39 +64,48 @@ public class PlayerDAO implements ObjectDAO<Player> {
         return findQueryExecute(query, startTime);
     }
 
-    private Mono<QueryResponse<ArrayList<Player>>> findQueryExecute(String query, Long startTime){
-        ArrayList<Player> result = new ArrayList<>();
-        try{
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()){
-                result.add(new Player()
-                        .withId(Long.valueOf(resultSet.getString("id")))
-                        .withUserID(Long.valueOf(resultSet.getString("userid")))
-                        .withName(resultSet.getString("name"))
-                        .withInventory(new Gson().fromJson(resultSet.getString("inventory"), ArrayList.class))
-                        .withPosition(new Gson().fromJson(resultSet.getString("position"), Point.class))
-                        .withStats(new Gson().fromJson(resultSet.getString("stats"), ArrayList.class))
-                );
-            }
-            connection.close();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<Player>>()
-                                    .withStatus("[Ok]")
-                                    .withTime(startTime)
-                                    .withData(result)
-                    );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<Player>>()
-                                    .withStatus("[Error]\n" + e.getMessage())
-                                    .withTime(startTime)
-                                    .withData(null)
-                    );
-        }
+    private Mono<QueryResponse<ArrayList<Player>>> findQueryExecute(final String query, final Long startTime){
+            return Mono
+                    .fromCallable(()->{
+                        ArrayList<Player> result = new ArrayList<>();
+                        Connection connection = dataSource.getConnection();
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery(query);
+                        while (resultSet.next()){
+                            result.add(new Player()
+                                    .withId(Long.valueOf(resultSet.getString("id")))
+                                    .withUserID(Long.valueOf(resultSet.getString("userid")))
+                                    .withName(resultSet.getString("name"))
+                                    .withInventory(new Gson().fromJson(resultSet.getString("inventory"), ArrayList.class))
+                                    .withPosition(new Gson().fromJson(resultSet.getString("position"), Point.class))
+                                    .withStats(new Gson().fromJson(resultSet.getString("stats"), ArrayList.class))
+                            );
+                        }
+                        connection.close();
+                        return result;
+                    })
+                    .as
+                            (
+                                    players -> Mono.just
+                                            (
+                                                    new QueryResponse<ArrayList<Player>>()
+                                                            .withStatus("[Ok]")
+                                                            .withData(players)
+                                                            .withTime(startTime)
+                                            )
+                            )
+                    .onErrorResume
+                            (
+                                    throwable -> {
+                                        throwable.printStackTrace();
+                                        return Mono.just
+                                                (
+                                                        new QueryResponse<ArrayList<Player>>()
+                                                            .withStatus("[Error]" + throwable.getMessage())
+                                                            .withTime(startTime)
+                                                            .withData(null)
+                                                );
+                                    }
+                            );
     }
  }

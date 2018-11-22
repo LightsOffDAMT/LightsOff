@@ -76,7 +76,7 @@ public class ItemInGameDAO implements ObjectDAO<ItemInGame> {
             return Mono.just
                     (
                             new QueryResponse<ArrayList<ItemInGame>>()
-                                    .withData(result)
+                                    .withData(Mono.just(result))
                                     .withStatus("[OK]")
                                     .withTime(startTime)
                     );

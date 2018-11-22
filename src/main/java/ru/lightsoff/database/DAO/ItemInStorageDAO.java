@@ -76,7 +76,7 @@ public class ItemInStorageDAO implements ObjectDAO<ItemInStorage> {
             return Mono.just
                     (
                             new QueryResponse<ArrayList<ItemInStorage>>()
-                                    .withData(result)
+                                    .withData(Mono.just(result))
                                     .withStatus("[OK]")
                                     .withTime(startTime)
                     );

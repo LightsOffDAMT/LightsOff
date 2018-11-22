@@ -80,7 +80,7 @@ public class UserDAO implements ObjectDAO<User> {
             return Mono.just
                     (
                             new QueryResponse<ArrayList<User>>()
-                                    .withData(result)
+                                    .withData(Mono.just(result))
                                     .withStatus("[OK]")
                                     .withTime(startTime)
                     );

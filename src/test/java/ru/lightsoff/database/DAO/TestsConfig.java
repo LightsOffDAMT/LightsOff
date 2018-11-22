@@ -19,10 +19,10 @@ import static ru.yandex.qatools.embed.postgresql.distribution.Version.Main.V9_6;
 @TestConfiguration
 public class TestsConfig {
 
-    @Bean
-    EntitySerialization entitySerialization(){
-        return new EntitySerialization();
-    }
+//    @Bean
+//    EntitySerialization entitySerialization(){
+//        return new EntitySerialization();
+//    }
 
     @Bean
     public PlayerDAO playerDAO(){

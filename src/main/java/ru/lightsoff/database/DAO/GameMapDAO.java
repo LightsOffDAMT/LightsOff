@@ -77,7 +77,7 @@ public class GameMapDAO<T> implements ObjectDAO<GameMap> {
             return Mono.just
                     (
                             new QueryResponse<ArrayList<GameMap>>()
-                                    .withData(result)
+                                    .withData(Mono.just(result))
                                     .withStatus("[OK]")
                                     .withTime(startTime)
                     );
