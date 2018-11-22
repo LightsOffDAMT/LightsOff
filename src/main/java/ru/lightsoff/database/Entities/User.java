@@ -6,10 +6,34 @@ public class User {
     private String password;
     private String email;
     private String nickname;
-    private Boolean online;
+    private Boolean online; // mb isOnline?
 
     public User(){
         super();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public Boolean getOnline() {
+        return online;
     }
 
     public User withId(Long id){
@@ -28,7 +52,7 @@ public class User {
     }
 
     public User withEmail(String email){
-        this.password = password;
+        this.email = email;
         return this;
     }
 

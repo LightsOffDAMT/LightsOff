@@ -15,6 +15,18 @@ public class ItemInStorage {
         super();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public HashMap<String, String> getProperties() {
+        return properties;
+    }
+
     public ItemInStorage withId(Long id){
         this.id = id;
         return this;

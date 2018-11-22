@@ -10,6 +10,14 @@ public class ItemInGame {
         super();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public Point getPosition() {
+        return position;
+    }
+
     public ItemInGame withId(Long id){
         this.id = id;
         return this;

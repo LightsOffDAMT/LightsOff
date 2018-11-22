@@ -11,6 +11,18 @@ public class GameMap {
         super();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<ArrayList<Integer>> getMap() {
+        return map;
+    }
+
     public GameMap withId(Long id){
         this.id = id;
         return this;
