@@ -6,8 +6,10 @@ import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.GameMap;
 import ru.lightsoff.database.Entities.GameMap;
+import ru.lightsoff.database.Entities.GameMap;
 
 import javax.sql.DataSource;
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -61,36 +63,45 @@ public class GameMapDAO<T> implements ObjectDAO<GameMap> {
         return findQueryExecute(query, startTime);
     }
 
-    private Mono<QueryResponse<ArrayList<GameMap>>> findQueryExecute(String query, Long startTime){
-        ArrayList<GameMap> result = new ArrayList<>();
-        try{
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while(resultSet.next()){
-                result.add(new GameMap()
-                        .withId(resultSet.getLong("id"))
-                        .withName(resultSet.getString("name"))
-                        .withMap(new Gson().fromJson(resultSet.getString("map"), ArrayList.class))
-                );
-            }
-            connection.close();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<GameMap>>()
-                                    .withData(Mono.just(result))
-                                    .withStatus("[OK]")
-                                    .withTime(startTime)
-                    );
-        } catch (SQLException e){
-            e.printStackTrace();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<GameMap>>()
-                                    .withData(null)
-                                    .withStatus("[Error]\n" + e.getMessage())
-                                    .withTime(startTime)
-                    );
-        }
+    private Mono<QueryResponse<ArrayList<GameMap>>> findQueryExecute(final String query, final Long startTime){
+        return Mono
+                .fromCallable(()->{
+                    ArrayList<GameMap> result = new ArrayList<>();
+                    Connection connection = dataSource.getConnection();
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery(query);
+                    while (resultSet.next()){
+                        result.add(new GameMap()
+                                .withId(resultSet.getLong("id"))
+                                .withName(resultSet.getString("name"))
+                                .withMap(new Gson().fromJson(resultSet.getString("map"), ArrayList.class))
+                        );
+                    }
+                    connection.close();
+                    return result;
+                })
+                .as
+                        (
+                                maps -> Mono.just
+                                        (
+                                                new QueryResponse<ArrayList<GameMap>>()
+                                                        .withStatus("[Ok]")
+                                                        .withData(maps)
+                                                        .withTime(startTime)
+                                        )
+                        )
+                .onErrorResume
+                        (
+                                throwable -> {
+                                    throwable.printStackTrace();
+                                    return Mono.just
+                                            (
+                                                    new QueryResponse<ArrayList<GameMap>>()
+                                                            .withStatus("[Error]" + throwable.getMessage())
+                                                            .withTime(startTime)
+                                                            .withData(null)
+                                            );
+                                }
+                        );
     }
 }

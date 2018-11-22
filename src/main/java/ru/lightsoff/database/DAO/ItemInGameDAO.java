@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.ItemInGame;
 import ru.lightsoff.database.Entities.ItemInGame;
+import ru.lightsoff.database.Entities.ItemInGame;
 
 import javax.sql.DataSource;
 import java.awt.*;
@@ -14,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -61,35 +63,45 @@ public class ItemInGameDAO implements ObjectDAO<ItemInGame> {
         return findQueryExecute(query, startTime);
     }
 
-    private Mono<QueryResponse<ArrayList<ItemInGame>>> findQueryExecute(String query, Long startTime){
-        ArrayList<ItemInGame> result = new ArrayList<>();
-        try{
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while(resultSet.next()){
-                result.add(new ItemInGame()
-                        .withId(resultSet.getLong("id"))
-                        .withPosition(new Gson().fromJson(resultSet.getString("position"), Point.class))
-                );
-            }
-            connection.close();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<ItemInGame>>()
-                                    .withData(Mono.just(result))
-                                    .withStatus("[OK]")
-                                    .withTime(startTime)
-                    );
-        } catch (SQLException e){
-            e.printStackTrace();
-            return Mono.just
-                    (
-                            new QueryResponse<ArrayList<ItemInGame>>()
-                                    .withData(null)
-                                    .withStatus("[Error]\n" + e.getMessage())
-                                    .withTime(startTime)
-                    );
-        }
+
+    private Mono<QueryResponse<ArrayList<ItemInGame>>> findQueryExecute(final String query, final Long startTime){
+        return Mono
+                .fromCallable(()->{
+                    ArrayList<ItemInGame> result = new ArrayList<>();
+                    Connection connection = dataSource.getConnection();
+                    Statement statement = connection.createStatement();
+                    ResultSet resultSet = statement.executeQuery(query);
+                    while (resultSet.next()){
+                        result.add(new ItemInGame()
+                                .withId(resultSet.getLong("id"))
+                                .withPosition(new Gson().fromJson(resultSet.getString("position"), Point.class))
+                        );
+                    }
+                    connection.close();
+                    return result;
+                })
+                .as
+                        (
+                                items -> Mono.just
+                                        (
+                                                new QueryResponse<ArrayList<ItemInGame>>()
+                                                        .withStatus("[Ok]")
+                                                        .withData(items)
+                                                        .withTime(startTime)
+                                        )
+                        )
+                .onErrorResume
+                        (
+                                throwable -> {
+                                    throwable.printStackTrace();
+                                    return Mono.just
+                                            (
+                                                    new QueryResponse<ArrayList<ItemInGame>>()
+                                                            .withStatus("[Error]" + throwable.getMessage())
+                                                            .withTime(startTime)
+                                                            .withData(null)
+                                            );
+                                }
+                        );
     }
 }
