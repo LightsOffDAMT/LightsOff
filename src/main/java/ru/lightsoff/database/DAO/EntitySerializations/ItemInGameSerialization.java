@@ -6,11 +6,12 @@ import ru.lightsoff.database.Entities.ItemInGame;
 import ru.lightsoff.database.builders.QueryFactory;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ItemInGameSerialization {
     @Bean
-    public Function<ItemInGame, String> findAll() {
-        return item -> QueryFactory
+    public Supplier<String> findAll() {
+        return () -> QueryFactory
                 .select()
                 .from("items_in_game")
                 .all()

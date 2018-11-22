@@ -14,12 +14,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ItemInStorageDAO implements ObjectDAO<ItemInStorage> {
     @Autowired
     private Function<ItemInStorage, String> findByIdItemInStorage;
     @Autowired
-    private Function<ItemInStorage, String> findAllItemInStorage;
+    private Supplier<String> findAllItemInStorage;
     @Autowired
     private Function<ItemInStorage, String> insertItemInStorage;
     @Autowired
@@ -55,7 +56,7 @@ public class ItemInStorageDAO implements ObjectDAO<ItemInStorage> {
     @Override
     public Mono<QueryResponse<ArrayList<ItemInStorage>>> findAll() {
         Long startTime = System.currentTimeMillis();
-        String query = findAllItemInStorage.apply(null);
+        String query = findAllItemInStorage.get();
         return findQueryExecute(query, startTime);
     }
 

@@ -7,11 +7,12 @@ import ru.lightsoff.database.Entities.ItemInStorage;
 import ru.lightsoff.database.builders.QueryFactory;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ItemInStorageSerialization {
     @Bean
-    public Function<ItemInStorage, String> findAll() {
-        return item -> QueryFactory
+    public Supplier<String> findAll() {
+        return () -> QueryFactory
                 .select()
                 .from("items_in_storage")
                 .all()

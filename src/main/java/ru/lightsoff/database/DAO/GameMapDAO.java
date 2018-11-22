@@ -15,12 +15,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class GameMapDAO<T> implements ObjectDAO<GameMap> {
     @Autowired
     private Function<GameMap, String> findByIdGameMap;
     @Autowired
-    private Function<GameMap, String> findAllGameMap;
+    private Supplier<String> findAllGameMap;
     @Autowired
     private Function<GameMap, String> insertGameMap;
     @Autowired
@@ -56,7 +57,7 @@ public class GameMapDAO<T> implements ObjectDAO<GameMap> {
     @Override
     public Mono<QueryResponse<ArrayList<GameMap>>> findAll() {
         Long startTime = System.currentTimeMillis();
-        String query = findAllGameMap.apply(null);
+        String query = findAllGameMap.get();
         return findQueryExecute(query, startTime);
     }
 

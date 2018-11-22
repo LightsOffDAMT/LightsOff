@@ -15,12 +15,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ItemInGameDAO implements ObjectDAO<ItemInGame> {
     @Autowired
     private Function<ItemInGame, String> findByIdItemInGame;
     @Autowired
-    private Function<ItemInGame, String> findAllItemInGame;
+    private Supplier<String> findAllItemInGame;
     @Autowired
     private Function<ItemInGame, String> insertItemInGame;
     @Autowired
@@ -56,7 +57,7 @@ public class ItemInGameDAO implements ObjectDAO<ItemInGame> {
     @Override
     public Mono<QueryResponse<ArrayList<ItemInGame>>> findAll() {
         Long startTime = System.currentTimeMillis();
-        String query = findAllItemInGame.apply(null);
+        String query = findAllItemInGame.get();
         return findQueryExecute(query, startTime);
     }
 

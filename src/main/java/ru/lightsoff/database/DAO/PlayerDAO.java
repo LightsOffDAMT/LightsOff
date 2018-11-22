@@ -15,6 +15,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
@@ -24,15 +25,15 @@ public class PlayerDAO implements ObjectDAO<Player> {
     @Autowired
     private DataSource dataSource;
     @Autowired
-    Function<Player, String> findAllPlayer;
+    private Supplier<String> findAllPlayer;
     @Autowired
-    Function<Player, String> insertPlayer;
+    private Function<Player, String> insertPlayer;
     @Autowired
-    Function<Player, String> updatePlayer;
+    private Function<Player, String> updatePlayer;
     @Autowired
-    Function<Player, String> deletePlayer;
+    private Function<Player, String> deletePlayer;
     @Autowired
-    Function<Player, String> findByIdPlayer;
+    private Function<Player, String> findByIdPlayer;
     NonAnswerQueryExecutor<Player> queryExecutor = new NonAnswerQueryExecutor<>();
 
     @Override
@@ -60,7 +61,7 @@ public class PlayerDAO implements ObjectDAO<Player> {
     @Override
     public Mono<QueryResponse<ArrayList<Player>>> findAll() {
         Long startTime = System.currentTimeMillis();
-        String query = findAllPlayer.apply(null);
+        String query = findAllPlayer.get();
         return findQueryExecute(query, startTime);
     }
 

@@ -15,12 +15,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class UserDAO implements ObjectDAO<User> {
     @Autowired
     private Function<User, String> findByIdUser;
     @Autowired
-    private Function<User, String> findAllUser;
+    private Supplier<String> findAllUser;
     @Autowired
     private Function<User, String> insertUser;
     @Autowired
@@ -56,7 +57,7 @@ public class UserDAO implements ObjectDAO<User> {
     @Override
     public Mono<QueryResponse<ArrayList<User>>> findAll() {
         Long startTime = System.currentTimeMillis();
-        String query = findAllUser.apply(null);
+        String query = findAllUser.get();
         return findQueryExecute(query, startTime);
     }
 

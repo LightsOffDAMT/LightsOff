@@ -8,12 +8,13 @@ import ru.lightsoff.database.Entities.Player;
 import ru.lightsoff.database.builders.QueryFactory;
 
 import java.util.Locale;
+import java.util.function.Supplier;
 
 @Configuration
 public class PlayerSerialization {
     @Bean
-    public Function<Player, String> findAllPlayer(){
-        return player -> QueryFactory
+    public Supplier<String> findAllPlayer(){
+        return () -> QueryFactory
                 .select()
                 .from("players")
                 .all()

@@ -7,13 +7,14 @@ import ru.lightsoff.database.Entities.User;
 import ru.lightsoff.database.builders.QueryFactory;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Configuration
 public class UserSerialization {
 
     @Bean
-    public Function<User, String> findAllUser() {
-        return user -> QueryFactory
+    public Supplier<String> findAllUser() {
+        return () -> QueryFactory
                 .select()
                 .from("users")
                 .all()

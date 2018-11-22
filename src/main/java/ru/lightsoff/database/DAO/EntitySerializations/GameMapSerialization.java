@@ -7,11 +7,12 @@ import ru.lightsoff.database.Entities.GameMap;
 import ru.lightsoff.database.builders.QueryFactory;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class GameMapSerialization {
     @Bean
-    public Function<GameMap, String> findAll() {
-        return gameMap -> QueryFactory
+    public Supplier<String> findAll() {
+        return () -> QueryFactory
                 .select()
                 .from("game_maps")
                 .all()
