@@ -2,6 +2,7 @@ package ru.lightsoff.database.DAO;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.User;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@Component
 public class UserDAO implements ObjectDAO<User> {
     @Autowired
     private Function<User, String> findByIdUser;

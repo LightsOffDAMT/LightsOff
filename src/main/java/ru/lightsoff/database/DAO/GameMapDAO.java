@@ -2,6 +2,7 @@ package ru.lightsoff.database.DAO;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.GameMap;
@@ -19,7 +20,8 @@ import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class GameMapDAO<T> implements ObjectDAO<GameMap> {
+@Component
+public class GameMapDAO implements ObjectDAO<GameMap> {
     @Autowired
     private Function<GameMap, String> findByIdGameMap;
     @Autowired

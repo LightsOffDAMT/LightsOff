@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
-@Component(value = "PlayerDAO")
+@Component(value = "playerDAO")
 public class PlayerDAO implements ObjectDAO<Player> {
     private final Logger log = LoggerFactory.getLogger(ObjectDAO.class);
     @Autowired
