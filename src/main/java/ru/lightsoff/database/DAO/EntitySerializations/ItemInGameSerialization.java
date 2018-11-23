@@ -8,9 +8,10 @@ import ru.lightsoff.database.builders.QueryFactory;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@Configuration
 public class ItemInGameSerialization {
     @Bean
-    public Supplier<String> findAll() {
+    public Supplier<String> findAllItemInGame() {
         return () -> QueryFactory
                 .select()
                 .from("items_in_game")
@@ -19,7 +20,7 @@ public class ItemInGameSerialization {
     }
 
     @Bean
-    public Function<ItemInGame, String> findById() {
+    public Function<ItemInGame, String> findByIdItemInGame() {
         return item -> QueryFactory
                 .select()
                 .from("items_in_game")
@@ -29,7 +30,7 @@ public class ItemInGameSerialization {
     }
 
     @Bean
-    public Function<ItemInGame, String> insert() {
+    public Function<ItemInGame, String> insertItemInGame() {
         return item -> QueryFactory
                 .insert()
                 .into("items_in_game")
@@ -45,7 +46,7 @@ public class ItemInGameSerialization {
     }
 
     @Bean
-    public Function<ItemInGame, String> update() {
+    public Function<ItemInGame, String> updateItemInGame() {
         return item -> QueryFactory
                 .update()
                 .from("items_in_game")
@@ -56,7 +57,7 @@ public class ItemInGameSerialization {
     }
 
     @Bean
-    public Function<ItemInGame, String> delete() {
+    public Function<ItemInGame, String> deleteItemInGame() {
         return item -> QueryFactory
                 .delete()
                 .from("items_in_game")

@@ -9,9 +9,10 @@ import ru.lightsoff.database.builders.QueryFactory;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@Configuration
 public class GameMapSerialization {
     @Bean
-    public Supplier<String> findAll() {
+    public Supplier<String> findAllGameMap() {
         return () -> QueryFactory
                 .select()
                 .from("game_maps")
@@ -20,7 +21,7 @@ public class GameMapSerialization {
     }
 
     @Bean
-    public Function<GameMap, String> findById() {
+    public Function<GameMap, String> findByIdGameMap() {
         return gameMap -> QueryFactory
                 .select()
                 .from("users")
@@ -31,7 +32,7 @@ public class GameMapSerialization {
     }
 
     @Bean
-    public Function<GameMap, String> insert() {
+    public Function<GameMap, String> insertGameMap() {
         return gameMap -> QueryFactory
                 .insert()
                 .into("game_maps")
@@ -48,7 +49,7 @@ public class GameMapSerialization {
     }
 
     @Bean
-    public Function<GameMap, String> update() {
+    public Function<GameMap, String> updateGameMap() {
         return gameMap -> QueryFactory
                 .update()
                 .from("game_maps")
@@ -60,7 +61,7 @@ public class GameMapSerialization {
     }
 
     @Bean
-    public Function<GameMap, String> delete() {
+    public Function<GameMap, String> deleteGameMap() {
         return gameMap -> QueryFactory
                 .delete()
                 .from("game_maps")

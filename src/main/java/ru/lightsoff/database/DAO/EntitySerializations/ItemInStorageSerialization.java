@@ -9,9 +9,10 @@ import ru.lightsoff.database.builders.QueryFactory;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@Configuration
 public class ItemInStorageSerialization {
     @Bean
-    public Supplier<String> findAll() {
+    public Supplier<String> findAllItemInStorage() {
         return () -> QueryFactory
                 .select()
                 .from("items_in_storage")
@@ -20,7 +21,7 @@ public class ItemInStorageSerialization {
     }
 
     @Bean
-    public Function<ItemInStorage, String> findById() {
+    public Function<ItemInStorage, String> findByIdItemInStorage() {
         return item -> QueryFactory
                 .select()
                 .from("items_in_storage")
@@ -31,7 +32,7 @@ public class ItemInStorageSerialization {
     }
 
     @Bean
-    public Function<ItemInStorage, String> insert() {
+    public Function<ItemInStorage, String> insertItemInStorage() {
         return item -> QueryFactory
                 .insert()
                 .into("items_in_storage")
@@ -48,7 +49,7 @@ public class ItemInStorageSerialization {
     }
 
     @Bean
-    public Function<ItemInStorage, String> update() {
+    public Function<ItemInStorage, String> updateItemInStorage() {
         return item -> QueryFactory
                 .update()
                 .from("items_in_storage")
@@ -60,7 +61,7 @@ public class ItemInStorageSerialization {
     }
 
     @Bean
-    public Function<ItemInStorage, String> delete() {
+    public Function<ItemInStorage, String> deleteItemInStorage() {
         return item -> QueryFactory
                 .delete()
                 .from("items_in_storage")
