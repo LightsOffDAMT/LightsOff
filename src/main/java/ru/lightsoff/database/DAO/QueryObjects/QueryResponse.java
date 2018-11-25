@@ -39,4 +39,8 @@ public class QueryResponse<T> {
         this.rawData = data;
         return this;
     }
+
+    public T getRawData() {
+        return rawData;
+    }
 }
