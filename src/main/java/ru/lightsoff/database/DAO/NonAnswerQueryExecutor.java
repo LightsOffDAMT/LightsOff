@@ -13,25 +13,26 @@ public class NonAnswerQueryExecutor<T> {
     public Mono<QueryResponse<T>> execute(Function<T, String> serialization, DataSource dataSource, T object) {
         long startTime = System.currentTimeMillis();
         String query = serialization.apply(object);
-        try {
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            Integer result = statement.executeUpdate(query);
-            connection.close();
-            return Mono.just
+            return Mono.fromCallable
                     (
-                            new QueryResponse<T>()
-                                    .withStatus("[OK] Rows changed: " + result)
-                                    .withTime(startTime)
-                    );
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return Mono.just
+                            ()->{
+                                Connection connection = dataSource.getConnection();
+                                Statement statement = connection.createStatement();
+                                Integer result = statement.executeUpdate(query);
+                                connection.close();
+                                return new QueryResponse<T>()
+                                        .withStatus("[OK] Rows changed: " + result)
+                                        .withTime(startTime);
+                            }
+                    )
+                    .onErrorResume
                     (
-                            new QueryResponse<T>()
-                                    .withStatus(e.getMessage())
-                                    .withTime(startTime)
+                            throwable -> Mono.just
+                                        (
+                                                new QueryResponse<T>()
+                                                        .withStatus(throwable.getMessage())
+                                                        .withTime(startTime)
+                                        )
                     );
-        }
     }
 }

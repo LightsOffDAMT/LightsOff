@@ -1,5 +1,6 @@
 package ru.lightsoff.database.DAO.EntitySerializations;
 
+import com.google.gson.Gson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.lightsoff.database.Entities.ItemInGame;
@@ -38,9 +39,7 @@ public class ItemInGameSerialization {
                 .withColumn("position")
                 .withRow()
                     .withValue(item.getId().toString())
-                    .withValue(
-                            String.format("(%f,%f)", item.getPosition().getX(), item.getPosition().getY())
-                    )
+                    .withValue(new Gson().toJson(item.getPosition()))
                 .and()
                 .toString();
     }
