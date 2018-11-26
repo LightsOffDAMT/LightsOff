@@ -1,5 +1,8 @@
 package ru.lightsoff.database.Entities;
 
+/**
+ * User entity
+ */
 public class User {
     private Long id;
     private String login;

@@ -2,6 +2,9 @@ package ru.lightsoff.database.Entities;
 
 import java.awt.*;
 
+/**
+ * ItemInGame entity
+ */
 public class ItemInGame {
     private Long id;
     private Point position;

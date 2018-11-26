@@ -8,17 +8,19 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.Player;
-import ru.lightsoff.database.Entities.User;
 
 import javax.sql.DataSource;
 import java.awt.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
-
+/**
+ * Class that methods of DB access for Player Entity
+ */
 @Component(value = "playerDAO")
 public class PlayerDAO implements ObjectDAO<Player> {
     private final Logger log = LoggerFactory.getLogger(ObjectDAO.class);

@@ -1,23 +1,22 @@
 package ru.lightsoff.database.DAO;
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.User;
-import ru.lightsoff.database.Entities.User;
 
 import javax.sql.DataSource;
-import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * Class that methods of DB access for User Entity
+ */
 @Component
 public class UserDAO implements ObjectDAO<User> {
     @Autowired

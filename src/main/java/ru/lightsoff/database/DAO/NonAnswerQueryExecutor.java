@@ -5,10 +5,13 @@ import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.function.Function;
 
+/**
+ * Class which provides method for executing non-select queries
+ * @param <T> Class of entity corresponding to DAO
+ */
 public class NonAnswerQueryExecutor<T> {
     public Mono<QueryResponse<T>> execute(Function<T, String> serialization, DataSource dataSource, T object) {
         long startTime = System.currentTimeMillis();

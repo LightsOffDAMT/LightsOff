@@ -3,13 +3,15 @@ package ru.lightsoff.database.DAO.EntitySerializations;
 import com.google.gson.Gson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import java.util.function.Function;
 import ru.lightsoff.database.Entities.Player;
 import ru.lightsoff.database.builders.QueryFactory;
 
-import java.util.Locale;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * Implementation of queries that return functions for queries and operate on Player object.
+ */
 @Configuration
 public class PlayerSerialization {
     @Bean

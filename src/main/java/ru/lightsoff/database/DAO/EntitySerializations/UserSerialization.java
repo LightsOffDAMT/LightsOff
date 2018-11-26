@@ -1,6 +1,5 @@
 package ru.lightsoff.database.DAO.EntitySerializations;
 
-import com.google.gson.Gson;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.lightsoff.database.Entities.User;
@@ -9,6 +8,9 @@ import ru.lightsoff.database.builders.QueryFactory;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * Implementation of queries that return functions for queries and operate on User object.
+ */
 @Configuration
 public class UserSerialization {
 

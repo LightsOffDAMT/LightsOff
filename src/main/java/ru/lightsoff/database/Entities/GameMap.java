@@ -2,6 +2,9 @@ package ru.lightsoff.database.Entities;
 
 import java.util.ArrayList;
 
+/**
+ * GameMap Entity
+ */
 public class GameMap {
     private Long id;
     private String name;

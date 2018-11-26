@@ -1,11 +1,11 @@
 package ru.lightsoff.database.Entities;
 
-import org.springframework.util.function.SupplierUtils;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 
+/**
+ * ItemInStorage entity
+ */
 public class ItemInStorage {
     private Long id;
     private String name;

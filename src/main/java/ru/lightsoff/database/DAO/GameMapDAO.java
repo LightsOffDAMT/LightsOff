@@ -6,20 +6,18 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.GameMap;
-import ru.lightsoff.database.Entities.GameMap;
-import ru.lightsoff.database.Entities.GameMap;
 
 import javax.sql.DataSource;
-import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * Class that methods of DB access for GameMap Entity
+ */
 @Component
 public class GameMapDAO implements ObjectDAO<GameMap> {
     @Autowired

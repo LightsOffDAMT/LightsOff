@@ -9,6 +9,9 @@ import ru.lightsoff.database.builders.QueryFactory;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * Implementation of queries that return functions for queries and operate on ItemInStorage object.
+ */
 @Configuration
 public class ItemInStorageSerialization {
     @Bean

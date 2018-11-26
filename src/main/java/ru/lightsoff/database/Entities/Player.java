@@ -3,6 +3,9 @@ package ru.lightsoff.database.Entities;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Player entity
+ */
 public class Player {
     private Long id;
     private String name;
