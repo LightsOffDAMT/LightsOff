@@ -4,6 +4,12 @@ spring:
   profiles: Drew
   datasource:
     password: kkh753
+  application:
+    name: database
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:9000/eureka}
 ---
 spring:
   profiles: Danya
