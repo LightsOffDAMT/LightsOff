@@ -1,9 +1,15 @@
 package ru.lightsoff.database;
 
+import com.netflix.discovery.DiscoveryClient;
+import com.netflix.discovery.EurekaClient;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import ru.lightsoff.database.builders.ColumnType;
 import ru.lightsoff.database.builders.QueryFactory;
@@ -13,12 +19,12 @@ import java.sql.SQLException;
 @SpringBootApplication
 @EnableWebFlux
 @EnableEurekaClient
+@EnableCaching
 public class DatabaseApplication {
 
     public static void main(String[] args) throws SQLException {
         ApplicationContext context = SpringApplication.run(DatabaseApplication.class, args);
         DataSource dao = context.getBean(DataSource.class);
-
     }
     //Creates all tables except Players, helpful initial method
     private void createAllTables(DataSource dao) throws Exception{

@@ -30,7 +30,6 @@ public class TestsConfig {
     }
 
     @Bean
-    @Profile("Test")
     DataSource datasource() throws Exception{
         return EmbeddedPostgresRules.singleInstance().getEmbeddedPostgres().getPostgresDatabase();
     }

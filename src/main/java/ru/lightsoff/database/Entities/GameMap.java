@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class GameMap {
     private Long id;
     private String name;
-    private ArrayList<ArrayList<Integer>> map;
+    private ArrayList<ArrayList<Double>> map;
 
     public GameMap(){
         super();
@@ -22,7 +22,7 @@ public class GameMap {
         return name;
     }
 
-    public ArrayList<ArrayList<Integer>> getMap() {
+    public ArrayList<ArrayList<Double>> getMap() {
         return map;
     }
 
@@ -36,7 +36,7 @@ public class GameMap {
         return this;
     }
 
-    public GameMap withMap(ArrayList<ArrayList<Integer>> map){
+    public GameMap withMap(ArrayList<ArrayList<Double>> map){
         this.map = map;
         return this;
     }

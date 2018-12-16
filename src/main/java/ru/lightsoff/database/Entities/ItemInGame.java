@@ -7,6 +7,7 @@ import java.awt.*;
  */
 public class ItemInGame {
     private Long id;
+    private Long itemID;
     private Point position;
 
     public ItemInGame(){
@@ -21,6 +22,10 @@ public class ItemInGame {
         return position;
     }
 
+    public Long getItemID() {
+        return itemID;
+    }
+
     public ItemInGame withId(Long id){
         this.id = id;
         return this;
@@ -30,4 +35,11 @@ public class ItemInGame {
         this.position = position;
         return this;
     }
+
+    public ItemInGame withItemId(Long id){
+        this.itemID = id;
+        return this;
+    }
+
+
 }

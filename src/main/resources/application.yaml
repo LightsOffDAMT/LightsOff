@@ -1,20 +1,30 @@
 server:
-  port: 9001
+  port: 9002
 spring:
-  profiles: Drew
-  datasource:
-    password: kkh753
+  profiles: Drew, Danya
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: database
 eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_URI:http://localhost:9000/eureka}
+    healthcheck:
+      enabled: true
+  instance:
+    health-check-url: ${server.servletPath}/health
+trace: true
 ---
 spring:
   profiles: Danya
   datasource:
     password: xna004
+---
+spring:
+  profiles: Drew
+  datasource:
+    password: kkh753
 ---
 spring:
   profiles:

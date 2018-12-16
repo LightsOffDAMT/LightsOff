@@ -39,9 +39,11 @@ public class ItemInGameSerialization {
                 .insert()
                 .into("items_in_game")
                 .withColumn("id")
+                .withColumn("itemid")
                 .withColumn("position")
                 .withRow()
                     .withValue(item.getId().toString())
+                    .withValue(item.getItemID().toString())
                     .withValue(new Gson().toJson(item.getPosition()))
                 .and()
                 .toString();

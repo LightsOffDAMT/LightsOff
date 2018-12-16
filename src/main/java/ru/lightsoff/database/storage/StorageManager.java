@@ -1,8 +1,16 @@
 package ru.lightsoff.database.storage;
 
+import com.netflix.appinfo.InstanceInfo;
+import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.shared.Applications;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.CollectionFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.statemachine.StateMachine;
@@ -14,14 +22,12 @@ import ru.lightsoff.database.DAO.ObjectDAO;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.IllegalFormatException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
+@CacheConfig(cacheNames = "database")
 public class StorageManager {
     @Autowired
     ObjectDAO<Player> playerDAO;
@@ -35,8 +41,9 @@ public class StorageManager {
     ObjectDAO<GameMap> gameMapDAO;
     private Logger log = LoggerFactory.getLogger(StorageManager.class);
 
+    @Cacheable
     @RequestMapping("/get/{entity}")
-    public Mono<ArrayList<Object>> get(@RequestBody @RequestParam @Nullable Long id, @PathVariable String entity){
+    public Mono<ArrayList<Object>> get(@RequestParam @Nullable Long id, @PathVariable String entity){
         Optional<ObjectDAO> optionalObjectDAO = selectEntity(entity);
         ObjectDAO objectDAO;
         if(optionalObjectDAO.isPresent())
@@ -51,80 +58,95 @@ public class StorageManager {
         return responseMono.flatMap(QueryResponse::getData);
     }
 
+    @CachePut
     @PostMapping("/insert/player")
-    private Mono<QueryResponse<Player>> insertPlayer(@RequestBody Player player){
+    public Mono<QueryResponse<Player>> insertPlayer(@RequestBody Player player){
         return playerDAO.insert(player);
     }
 
+    @CachePut
     @PostMapping("/insert/user")
-    private Mono<QueryResponse<User>> insertUser(@RequestBody User user){
+    public Mono<QueryResponse<User>> insertUser(@RequestBody User user){
         return userDAO.insert(user);
     }
 
+    @CachePut
     @PostMapping("/insert/itemInGame")
-    private Mono<QueryResponse<ItemInGame>> insertItemInGame(@RequestBody ItemInGame itemInGame){
+    public Mono<QueryResponse<ItemInGame>> insertItemInGame(@RequestBody ItemInGame itemInGame){
         return itemInGameDAO.insert(itemInGame);
     }
 
+    @CachePut
     @PostMapping("/insert/itemInStorage")
-    private Mono<QueryResponse<ItemInStorage>> insertItemInStorage(@RequestBody ItemInStorage itemInStorage){
+    public Mono<QueryResponse<ItemInStorage>> insertItemInStorage(@RequestBody ItemInStorage itemInStorage){
         return itemInStorageDAO.insert(itemInStorage);
     }
 
+    @CachePut
     @PostMapping("/insert/gameMap")
-    private Mono<QueryResponse<GameMap>> insertGameMap(@RequestBody GameMap gameMap){
+    public Mono<QueryResponse<GameMap>> insertGameMap(@RequestBody GameMap gameMap){
         return gameMapDAO.insert(gameMap);
     }
 
+    @CachePut
     @PostMapping("/delete/player")
-    private Mono<QueryResponse<Player>> deletePlayer(@RequestBody Player player){
+    public Mono<QueryResponse<Player>> deletePlayer(@RequestBody Player player){
         return playerDAO.delete(player);
     }
 
+    @CachePut
     @PostMapping("/delete/user")
-    private Mono<QueryResponse<User>> deleteUser(@RequestBody User user){
+    public Mono<QueryResponse<User>> deleteUser(@RequestBody User user){
         return userDAO.delete(user);
     }
 
+    @CachePut
     @PostMapping("/delete/itemInGame")
-    private Mono<QueryResponse<ItemInGame>> deleteItemInGame(@RequestBody ItemInGame itemInGame){
+    public Mono<QueryResponse<ItemInGame>> deleteItemInGame(@RequestBody ItemInGame itemInGame){
         return itemInGameDAO.delete(itemInGame);
     }
 
+    @CachePut
     @PostMapping("/delete/itemInStorage")
-    private Mono<QueryResponse<ItemInStorage>> deleteItemInStorage(@RequestBody ItemInStorage itemInStorage){
+    public Mono<QueryResponse<ItemInStorage>> deleteItemInStorage(@RequestBody ItemInStorage itemInStorage){
         return itemInStorageDAO.delete(itemInStorage);
     }
 
+    @CachePut
     @PostMapping("/delete/gameMap")
-    private Mono<QueryResponse<GameMap>> deleteGameMap(@RequestBody GameMap gameMap){
+    public Mono<QueryResponse<GameMap>> deleteGameMap(@RequestBody GameMap gameMap){
         return gameMapDAO.delete(gameMap);
     }
 
+    @CachePut
     @PostMapping("/update/player")
-    private Mono<QueryResponse<Player>> updatePlayer(@RequestBody Player player){
+    public Mono<QueryResponse<Player>> updatePlayer(@RequestBody Player player){
         return playerDAO.update(player);
     }
 
+    @CachePut
     @PostMapping("/update/user")
-    private Mono<QueryResponse<User>> updateUser(@RequestBody User user){
+    public Mono<QueryResponse<User>> updateUser(@RequestBody User user){
         return userDAO.update(user);
     }
 
     @PostMapping("/update/itemInGame")
-    private Mono<QueryResponse<ItemInGame>> updateItemInGame(@RequestBody ItemInGame itemInGame){
+    public Mono<QueryResponse<ItemInGame>> updateItemInGame(@RequestBody ItemInGame itemInGame){
         return itemInGameDAO.update(itemInGame);
     }
 
+    @CachePut
     @PostMapping("/update/itemInStorage")
-    private Mono<QueryResponse<ItemInStorage>> updateItemInStorage(@RequestBody ItemInStorage itemInStorage){
+    public Mono<QueryResponse<ItemInStorage>> updateItemInStorage(@RequestBody ItemInStorage itemInStorage){
         return itemInStorageDAO.update(itemInStorage);
     }
 
+    @CachePut
     @PostMapping("/update/gameMap")
-    private Mono<QueryResponse<GameMap>> updateGameMap(@RequestBody GameMap gameMap){
+    public Mono<QueryResponse<GameMap>> updateGameMap(@RequestBody GameMap gameMap){
         return gameMapDAO.update(gameMap);
     }
+
 
     private Optional<ObjectDAO> selectEntity(String entity){
         switch (entity){

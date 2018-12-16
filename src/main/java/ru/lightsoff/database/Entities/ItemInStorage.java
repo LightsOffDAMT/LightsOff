@@ -6,7 +6,7 @@ import java.util.Optional;
 /**
  * ItemInStorage entity
  */
-public class ItemInStorage {
+public class    ItemInStorage {
     private Long id;
     private String name;
     private HashMap<String, String> properties = new HashMap<>();

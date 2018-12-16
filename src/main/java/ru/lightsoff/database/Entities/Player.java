@@ -70,4 +70,28 @@ public class Player {
         this.position = position;
         return this;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setInventory(ArrayList<ArrayList<Integer>> inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
+    public void setStats(ArrayList<Integer> stats) {
+        this.stats = stats;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
 }
