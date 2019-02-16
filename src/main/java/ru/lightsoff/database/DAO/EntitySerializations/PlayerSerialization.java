@@ -34,6 +34,29 @@ public class PlayerSerialization {
     }
 
     @Bean
+    public Function<Player, String> findByIdPlayerInjected(){
+        return player -> QueryFactory
+                .select()
+                .from("players")
+                .all()
+                .innerJoin("users")
+                .joinOn("players.userid = users.id")
+                .where("id = $", player.getId().toString())
+                .toString();
+    }
+
+    @Bean
+    public Supplier<String> findAllPlayerInjected(){
+        return () -> QueryFactory
+                .select()
+                .from("players")
+                .all()
+                .innerJoin("users")
+                .joinOn("players.userid = users.id")
+                .toString();
+    }
+
+    @Bean
     public Function<Player, String> insertPlayer(){
         return player -> QueryFactory
                 .insert()

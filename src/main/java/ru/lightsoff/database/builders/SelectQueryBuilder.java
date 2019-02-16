@@ -2,13 +2,50 @@ package ru.lightsoff.database.builders;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Stream;
+
+enum Join{
+    INNER(0), LEFT(1), RIGHT(2), FULL(3);
+
+    private int id;
+    private String sql;
+
+    Join(int id){
+        this.id = id;
+        switch (id){
+            case 0:
+                sql = "INNER JOIN";
+                break;
+            case 1:
+                sql = "LEFT OUTER JOIN";
+                break;
+            case 2:                sql = "RIGHT OUTER JOIN";
+                break;
+            case 3:
+                sql = "FULL OUTER JOIN";
+                break;
+        }
+    }
+
+    public int id(){
+        return id;
+    }
+
+    public String sql(){
+        return sql;
+    }
+}
 
 /**
  * Provides methods for building SELECT SQL request.
  * Every method except {@link #toString() toString()} returns an object of SelectQueryBuilder for method chaining.
+ * Note: {@link SelectQueryBuilder is mutable}
  * Building result is returned by calling {@link #toString() toString()} method.
  */
-public class    SelectQueryBuilder {
+public class SelectQueryBuilder {
+
     private String primaryKey = "";
     private ArrayList<String> fields = new ArrayList<>();
     private String ascField = "";
@@ -18,6 +55,9 @@ public class    SelectQueryBuilder {
     private boolean asc = false;
     private boolean desc = false;
     private String where = "";
+    private String join = "";
+    private String joinOn = "";
+    private Boolean[] joinType = Collections.nCopies(4, false).toArray(new Boolean[4]);
 
     public SelectQueryBuilder(){
         super();
@@ -142,6 +182,17 @@ public class    SelectQueryBuilder {
             query = query.substring(0, query.length() - 1);
         }
         query += " FROM " + from;
+        if(join.length() > 0){
+            String currentJoin = "";
+            for (int i = 0; i < joinType.length; i++){
+                if(joinType[i]){
+                    currentJoin = Join.values()[i].sql();
+                    break;
+                }
+            }
+            query += " " + currentJoin + " " + join;
+            query += " ON " + joinOn;
+        }
         if(where.length() > 0)
             query += " WHERE " + where;
         if(asc || desc)
@@ -158,6 +209,32 @@ public class    SelectQueryBuilder {
     public SelectQueryBuilder where(String pattern, String ... args){
         String buffer = pattern.replace("$", "%s");
         where = String.format(buffer, args);
+        return this;
+    }
+
+    public SelectQueryBuilder innerJoin(String table){
+        join = table;
+        joinType[Join.INNER.id()] =  true;
+        return this;
+    }
+    public SelectQueryBuilder leftJoin(String table){
+        join = table;
+        joinType[Join.LEFT.id()] =  true;
+        return this;
+    }
+    public SelectQueryBuilder rightJoin(String table){
+        join = table;
+        joinType[Join.RIGHT.id()] =  true;
+        return this;
+    }
+    public SelectQueryBuilder fullJoin(String table){
+        join = table;
+        joinType[Join.FULL.id()] =  true;
+        return this;
+    }
+
+    public SelectQueryBuilder joinOn(String condition){
+        joinOn = condition;
         return this;
     }
 
@@ -189,6 +266,16 @@ public class    SelectQueryBuilder {
             throw new SQLException();
         if(where.contains(";"))
             throw new SQLException();
+        if(join.contains(";"))
+            throw new SQLException();
+        if(joinOn.contains(";"))
+            throw new SQLException();
+        long joined = Stream.of(joinType).filter(val -> val).count();
+        if(joined > 1)
+            throw new SQLException();
+        else
+            if(joined == 1 && (joinOn.length() == 0 || join.length() == 0))
+                throw new SQLException();
         for(String it: fields)
             if(it.contains(";"))
                 throw new SQLException();
