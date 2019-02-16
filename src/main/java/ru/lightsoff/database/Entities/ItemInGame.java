@@ -14,6 +14,18 @@ public class ItemInGame {
         super();
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setItemID(Long itemID) {
+        this.itemID = itemID;
+    }
+
+    public void setPosition(Point position) {
+        this.position = position;
+    }
+
     public Long getId() {
         return id;
     }

@@ -18,10 +18,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.lightsoff.database.DAO.ItemInGameDAO;
 import ru.lightsoff.database.DAO.ObjectDAO;
 import ru.lightsoff.database.DAO.PlayerDAO;
 import ru.lightsoff.database.DAO.QueryObjects.QueryResponse;
 import ru.lightsoff.database.Entities.*;
+import ru.lightsoff.database.client.entities.injected.ItemInGameInjected;
 import ru.lightsoff.database.client.entities.injected.PlayerInjected;
 
 import java.util.*;
@@ -60,12 +62,22 @@ public class StorageManager {
         return responseMono.flatMap(QueryResponse::getData);
     }
 
+    @Cacheable
     @RequestMapping("/get_injected/player")
     public Mono<ArrayList<PlayerInjected>> getInjectedPlayer(@RequestParam @Nullable Long id){
         if(id != null)
             return ((PlayerDAO)playerDAO).findByIdInjected(id).flatMap(QueryResponse::getData);
         else
             return ((PlayerDAO)playerDAO).findAllInjected().flatMap(QueryResponse::getData);
+    }
+
+    @Cacheable
+    @RequestMapping("/get_injected/item_in_game")
+    public Mono<ArrayList<ItemInGameInjected>> getInjectedItemInGame(@RequestParam @Nullable Long id){
+        if(id != null)
+            return ((ItemInGameDAO)itemInGameDAO).findByIdInjected(id).flatMap(QueryResponse::getData);
+        else
+            return ((ItemInGameDAO)itemInGameDAO).findAllInjected().flatMap(QueryResponse::getData);
     }
 
     @CachePut

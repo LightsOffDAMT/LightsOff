@@ -3,12 +3,14 @@ package ru.lightsoff.database.client.entities.injected
 import ru.lightsoff.database.Entities.ItemInGame
 import ru.lightsoff.database.Entities.ItemInStorage
 
-class ItemInGameInjected: ItemInGame() {
-    var item: ItemInStorage = ItemInStorage()
+class ItemInGameInjected(itemInStorage: ItemInStorage, itemInGame: ItemInGame): ItemInGame() {
+    var itemInStorage: ItemInStorage = ItemInStorage()
         private set
 
-    fun withItem(item: ItemInStorage): ItemInGame{
-        this.item = item
-        return this
+    init {
+        this.id = itemInGame.id
+        this.itemID = itemInGame.itemID
+        this.position = itemInGame.position
+        this.itemInStorage = itemInStorage;
     }
 }

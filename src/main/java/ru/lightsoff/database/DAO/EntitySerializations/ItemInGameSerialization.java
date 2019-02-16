@@ -34,6 +34,29 @@ public class ItemInGameSerialization {
     }
 
     @Bean
+    public Supplier<String> findAllItemInGameInjected() {
+        return () -> QueryFactory
+                .select()
+                .from("items_in_game")
+                .all()
+                .innerJoin("items_in_storage")
+                .joinOn("items_in_game.itemid = items_in_storage.id")
+                .toString();
+    }
+
+    @Bean
+    public Function<ItemInGame, String> findByIdItemInGameInjected() {
+        return item -> QueryFactory
+                .select()
+                .from("items_in_game")
+                .all()
+                .innerJoin("items_in_storage")
+                .joinOn("items_in_game.itemid = items_in_storage.id")
+                .where("items_in_game.id = $", item.getId().toString())
+                .toString();
+    }
+
+    @Bean
     public Function<ItemInGame, String> insertItemInGame() {
         return item -> QueryFactory
                 .insert()
